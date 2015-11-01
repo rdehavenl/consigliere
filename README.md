@@ -8,8 +8,8 @@ Consigliere is an AWS Trusted Advisor Dashboard that supports multiple accounts.
 Requirements
 =============
 
-[NodeJS](https://nodejs.org/)
-[Redis](https://redis.io/)
+* [NodeJS](https://nodejs.org/)
+* [Redis](https://redis.io/)
 
 Installation
 ============
