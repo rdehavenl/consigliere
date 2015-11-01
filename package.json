@@ -1,0 +1,25 @@
+{
+  "name": "consigliere",
+  "version": "1.0.0",
+  "description": "Multi account AWS trusted advisor dashboard",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ivarrian/consigliere.git"
+  },
+  "author": "Ravi Nair",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ivarrian/consigliere/issues"
+  },
+  "homepage": "https://github.com/ivarrian/consigliere#readme",
+  "dependencies": {
+    "co-views": "^2.1.0",
+    "ejs": "^2.3.4",
+    "koa": "^1.1.1",
+    "koa-static": "^1.5.1"
+  }
+}

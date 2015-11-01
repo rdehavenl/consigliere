@@ -1,0 +1,20 @@
+{
+  "name": "consigliere",
+  "main": "index.js",
+  "version": "0.0.0",
+  "homepage": "https://github.com/ivarrian/consigliere",
+  "authors": [
+    "Ravi Nair <ivarrian@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "public/components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.5"
+  }
+}
