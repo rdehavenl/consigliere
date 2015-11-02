@@ -13,17 +13,13 @@ Requirements
 * [NodeJS](https://nodejs.org/)
 * [Redis](https://redis.io/)
 
-Installation
-============
+Getting Started
+================
+Assuming the requirements above are met :
 
 ```shell
 git clone <repo>
 npm install
 npm start
 ```
-
 The server will now be available at http://localhost:3000
-
-Getting Started
-================
-TODO
