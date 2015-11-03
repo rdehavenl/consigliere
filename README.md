@@ -1,6 +1,6 @@
 ![consigliere](consigliere.png)
 
-![david-dm](https://david-dm.org/ivarrian/consigliere.svg)
+![travis-ci](https://travis-ci.org/ivarrian/consigliere.svg?branch=master) ![david-dm](https://david-dm.org/ivarrian/consigliere.svg)
 
 What is it?
 ============
