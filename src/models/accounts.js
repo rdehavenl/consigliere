@@ -12,12 +12,17 @@ Accounts.init = function(callback){
       dbPath = config.Database.file.path;
       break;
     default:
-      // go up one level to avoid creation under __dirname/models
-      dbPath = __dirname+'/../'+config.Database.file.path;
+      // go up one level to avoid creation under __dirname/src/models
+      dbPath = __dirname+'/../../'+config.Database.file.path;
       break;
   }
   this.db = new sqlite3.Database(dbPath);
   this.db.run("CREATE TABLE IF NOT EXISTS accounts (accountNumber TEXT PRIMARY KEY, accountName TEXT, roleArn TEXT)",callback);
+}
+
+Accounts.purge = function(callback){
+  var stmt = this.db.prepare("DELETE FROM accounts");
+  stmt.run(callback);
 }
 
 Accounts.getAccounts = function(callback){
@@ -40,7 +45,7 @@ Accounts.addMultipleAccounts = function(accounts,callback){
   for (var i = 0; i < accounts.length; i++) {
       stmt.run(accounts[i].accountNumber,accounts[i].accountName,accounts[i].roleArn);
   }
-  stmt.finalize(callback);
+  // stmt.finalize(callback);
 }
 
 Accounts.addSingleAccount = function(accountNumber,accountName,roleArn,callback){
