@@ -4,6 +4,7 @@ var concat = require('gulp-concat');
 var rename = require('gulp-rename');
 var uglify = require('gulp-uglify');
 var esnext = require('gulp-esnext');
+var mocha = require('gulp-mocha');
 
 gulp.task('default', function(){
   return gulp.src('src/*/*.js') // read all of the files that are in script/lib with a .js extension
@@ -15,4 +16,9 @@ gulp.task('default', function(){
     .pipe(rename('all.min.js')) // now rename the file in memory to 'all.min.js'
     .pipe(uglify()) // run uglify (for minification) on 'all.min.js'
     .pipe(gulp.dest('dist/js')); // write all.min.js to the dist/js file
+});
+
+gulp.task('test', function(){
+  return gulp.src('test/**.js', {read: false})
+    .pipe(mocha({reporter: 'nyan'}));
 });
