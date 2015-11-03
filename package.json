@@ -24,5 +24,13 @@
     "koa": "^1.1.1",
     "koa-static": "^1.5.1",
     "sqlite3": "^3.1.0"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-concat": "^2.6.0",
+    "gulp-esnext": "^4.1.0",
+    "gulp-jshint": "^1.12.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^1.4.2"
   }
 }
