@@ -62,6 +62,20 @@ Accounts.addSingleAccount = function(accountNumber,accountName,roleArn,callback)
   });
 }
 
+Accounts.getAccountById = function(accountNumber,callback){
+  var stmt = this.db.prepare("SELECT * FROM accounts WHERE accountNumber = ?");
+  stmt.get(accountNumber,function(err,row){
+    if(err){
+      stmt.finalize();
+      callback(err);
+    }
+    else {
+      stmt.finalize();
+      callback(null,row);
+    }
+  });
+}
+
 Accounts.close = function(callback){
   this.db.close(callback);
 }

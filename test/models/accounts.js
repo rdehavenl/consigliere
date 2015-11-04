@@ -64,6 +64,17 @@ describe("Accounts Model", function() {
     });
   });
 
+  describe("Get account by id", function(){
+    it("Gets account by id", function(done){
+      var expectedAccount = {accountNumber:"12345",accountName:"ACCOUNT-A",roleArn:"arn:for:account:a"};
+      accounts.getAccountById("12345",function(err,account){
+        should.not.exist(err);
+        expect(account).to.deep.equal(expectedAccount);
+        done();
+      });
+    });
+  });
+
   describe("Close", function() {
     it("Closes any database connections",function(done){
       accounts.close(function(err){
