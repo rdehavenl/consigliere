@@ -20,7 +20,7 @@ describe("Accounts Model", function() {
         done();
       })
     })
-  })
+  });
   describe("Add Single Account", function() {
     it("Adds a single account",function(done){
       accounts.addSingleAccount("12345","ACCOUNT-A","arn:for:account:a",function(err){
@@ -67,7 +67,7 @@ describe("Accounts Model", function() {
   describe("Close", function() {
     it("Closes any database connections",function(done){
       accounts.close(function(err){
-        expect(err).equal(null);
+        should.not.exist(err);
         done();
       });
     });

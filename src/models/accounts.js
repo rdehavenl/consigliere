@@ -53,6 +53,7 @@ Accounts.addSingleAccount = function(accountNumber,accountName,roleArn,callback)
   var stmt = this.db.prepare("INSERT INTO accounts VALUES (?,?,?)");
   stmt.run(accountNumber,accountName,roleArn,function(err){
     if(err){
+      stmt.finalize();
       callback(err);
     }
     else {
