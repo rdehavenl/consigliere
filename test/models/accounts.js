@@ -1,4 +1,6 @@
-var expect    = require("chai").expect;
+var chai = require("chai");
+var expect = chai.expect;
+var should = chai.should();
 var accounts = require('../../src/models/accounts');
 
 describe("Accounts Model", function() {
@@ -6,7 +8,7 @@ describe("Accounts Model", function() {
   describe("Initialize", function() {
     it("Initializes Accounts Model",function(done){
       accounts.init(function(err){
-        expect(err).equal(null);
+        should.not.exist(err);
         done();
       });
     });
@@ -14,7 +16,7 @@ describe("Accounts Model", function() {
   describe("Purge", function(){
     it("Purges all records from database", function(done){
       accounts.purge(function(err){
-        expect(err).equal(null);
+        should.not.exist(err);
         done();
       })
     })
@@ -22,7 +24,7 @@ describe("Accounts Model", function() {
   describe("Add Single Account", function() {
     it("Adds a single account",function(done){
       accounts.addSingleAccount("12345","ACCOUNT-A","arn:for:account:a",function(err){
-        expect(err).equal(null);
+        should.not.exist(err);
         done();
       });
     });
@@ -34,15 +36,29 @@ describe("Accounts Model", function() {
         {accountNumber:"34567",accountName:"ACCOUNT-C",roleArn:"arn:for:account:c"}
       ];
       accounts.addMultipleAccounts(accountsArray,function(err){
-        expect(err).equal(null);
+        should.not.exist(err);
+        done();
+      });
+    });
+  });
+  describe("Add duplicate account", function(){
+    it("Fails to add a duplicate account", function(done){
+      accounts.addSingleAccount("12345","ACCOUNT-A","arn:for:account:a",function(err){
+        should.exist(err);
         done();
       });
     });
   });
   describe("Get Accounts", function(){
     it("Gets list of accounts",function(done){
+      var matchArray = [
+        {accountNumber:"12345",accountName:"ACCOUNT-A",roleArn:"arn:for:account:a"},
+        {accountNumber:"23456",accountName:"ACCOUNT-B",roleArn:"arn:for:account:b"},
+        {accountNumber:"34567",accountName:"ACCOUNT-C",roleArn:"arn:for:account:c"}
+      ]
       accounts.getAccounts(function(err,listOfAccounts){
-        expect(err).equal(null);
+        should.not.exist(err);
+        expect(listOfAccounts).to.deep.equal(matchArray);
         done();
       });
     });

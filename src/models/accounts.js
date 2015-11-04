@@ -22,7 +22,8 @@ Accounts.init = function(callback){
 
 Accounts.purge = function(callback){
   var stmt = this.db.prepare("DELETE FROM accounts");
-  stmt.run(callback);
+  stmt.run();
+  stmt.finalize(callback);
 }
 
 Accounts.getAccounts = function(callback){
@@ -45,12 +46,19 @@ Accounts.addMultipleAccounts = function(accounts,callback){
   for (var i = 0; i < accounts.length; i++) {
       stmt.run(accounts[i].accountNumber,accounts[i].accountName,accounts[i].roleArn);
   }
-  // stmt.finalize(callback);
+  stmt.finalize(callback);
 }
 
 Accounts.addSingleAccount = function(accountNumber,accountName,roleArn,callback){
   var stmt = this.db.prepare("INSERT INTO accounts VALUES (?,?,?)");
-  stmt.run(accountNumber,accountName,roleArn,callback);
+  stmt.run(accountNumber,accountName,roleArn,function(err){
+    if(err){
+      callback(err);
+    }
+    else {
+      stmt.finalize(callback);
+    }
+  });
 }
 
 Accounts.close = function(callback){
