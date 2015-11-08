@@ -18,7 +18,8 @@ Getting Started
 Assuming the requirements above are met :
 
 ```shell
-git clone <repo>
+git clone git@github.com:ivarrian/consigliere.git
+cd consigliere
 npm install
 npm start
 ```
