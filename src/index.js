@@ -19,10 +19,15 @@ app.use(logger());
 // router middleware
 
 app.use(route.get('/', home));
+app.use(route.get('/accounts',accounts));
 
 
 function *home(){
   this.body = yield render('index');
+}
+
+function *accounts(){
+  this.body = yield render('accounts');
 }
 
 if (!module.parent) app.listen(process.env.PORT || 3000);
