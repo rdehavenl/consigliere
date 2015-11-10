@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/ivarrian/consigliere#readme",
   "dependencies": {
+    "bower": "^1.6.5",
     "casper": "^0.1.1",
     "co-views": "^2.1.0",
     "config": "^1.16.0",
