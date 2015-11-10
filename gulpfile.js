@@ -6,6 +6,7 @@ var rename = require('gulp-rename');
 var uglify = require('gulp-uglify');
 var esnext = require('gulp-esnext');
 var mocha = require('gulp-mocha');
+var bower = require('gulp-bower');
 
 gulp.task('default', function(){
   mkdirp('data',function(err){
@@ -24,6 +25,7 @@ gulp.task('default', function(){
 });
 
 gulp.task('test', function(){
+  bower({ cmd: 'update'});
   mkdirp('data',function(err){
     if(!err){
       return gulp.src('test/**/*.js', {read: false})
