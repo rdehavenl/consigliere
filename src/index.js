@@ -15,7 +15,10 @@ server.register(require('vision'), function (err) {
             html: require('handlebars')
         },
         relativeTo: __dirname,
-        path: 'views'
+        path: 'views',
+        layoutPath: 'views/layout',
+        layout: 'default',
+        partialsPath: 'views/partials'
     });
     server.register(require('inert'), function (err) {
 
@@ -26,6 +29,14 @@ server.register(require('vision'), function (err) {
             path: '/',
             handler: function (request, reply) {
                 reply.view('index');
+            }
+        });
+
+        server.route({
+            method: 'GET',
+            path: '/accounts',
+            handler: function (request, reply) {
+                reply.view('accounts');
             }
         });
 
