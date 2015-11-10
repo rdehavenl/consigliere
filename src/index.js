@@ -4,7 +4,7 @@ var Hapi = require('hapi');
 var Hoek = require('hoek');
 var server = new Hapi.Server();
 
-server.connection({ port: 3000 });
+server.connection({ port: process.env.PORT });
 
 server.register(require('vision'), function (err) {
 
