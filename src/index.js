@@ -1,33 +1,46 @@
-var views = require('co-views');
-var koa = require('koa');
-var serve = require('koa-static');
-var logger = require('koa-logger');
-var route = require('koa-route');
-var app = module.exports = koa();
+var Hapi = require('hapi');
+var Path = require('path');
+var Hapi = require('hapi');
+var Hoek = require('hoek');
+var server = new Hapi.Server();
 
-// setup views, appending .ejs
-// when no extname is given to render()
+server.connection({ port: 3000 });
 
-var render = views(__dirname + '/views', { ext: 'ejs' });
+server.register(require('vision'), function (err) {
 
-// serve static content
-app.use(serve(__dirname + '/public'));
+    Hoek.assert(!err, err);
 
-// use logger middleware
-app.use(logger());
+    server.views({
+        engines: {
+            html: require('handlebars')
+        },
+        relativeTo: __dirname,
+        path: 'views'
+    });
+    server.register(require('inert'), function (err) {
 
-// router middleware
+        Hoek.assert(!err,err);
 
-app.use(route.get('/', home));
-app.use(route.get('/accounts',accounts));
+        server.route({
+            method: 'GET',
+            path: '/',
+            handler: function (request, reply) {
+                reply.view('index');
+            }
+        });
 
+        server.route({
+            method: 'GET',
+            path: '/{param*}',
+            handler: {
+                directory: {
+                    path: __dirname + '/public'
+                }
+            }
+        });
 
-function *home(){
-  this.body = yield render('index');
-}
-
-function *accounts(){
-  this.body = yield render('accounts');
-}
-
-if (!module.parent) app.listen(process.env.PORT || 3000);
+        server.start(function () {
+            console.log('Server running at:', server.info.uri);
+        });
+    });
+});
