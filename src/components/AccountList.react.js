@@ -1,13 +1,12 @@
-/** @jsx React.DOM */
-
 var React = require('react');
+var ReactDOM = require('react-dom');
 var Account = require('./Account.react');
 
-module.exports = Loader = React.createClass({
+module.exports = React.createClass({
   render: function(){
     var content = this.props.accounts.map(function(account){
       return (
-        <Account name={account.name} number={account.number} />
+        <Account key={account.number} name={account.name} number={account.number} />
       )
     });
     return (
