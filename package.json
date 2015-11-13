@@ -6,7 +6,7 @@
   "scripts": {
     "test": "gulp test",
     "start": "node src/index.js",
-    "postinstall": "node_modules/bower/bin/bower install; node_modules/browserify/bin/cmd.js src/react/accounts.page.js -t [ babelify --presets [ es2015 react ] ] | node_modules/uglify-js/bin/uglifyjs > src/public/scripts/bundled.js"
+    "postinstall": "mkdir -p src/public/scripts; node_modules/bower/bin/bower install; node_modules/browserify/bin/cmd.js src/react/accounts.page.js -t [ babelify --presets [ es2015 react ] ] | node_modules/uglify-js/bin/uglifyjs > src/public/scripts/bundled.js"
   },
   "repository": {
     "type": "git",
