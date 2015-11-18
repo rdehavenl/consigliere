@@ -2,6 +2,10 @@ var Hapi = require('hapi');
 var Path = require('path');
 var Hapi = require('hapi');
 var Hoek = require('hoek');
+var mAccounts = require('./models/accounts');
+
+mAccounts.init();
+
 var server = new Hapi.Server();
 
 server.connection({ port: process.env.PORT || 3000 });
@@ -31,6 +35,18 @@ server.register(require('vision'), function (err) {
                 reply.view('index');
             }
         });
+
+        server.route({
+          method: 'GET',
+          path: '/api/accounts',
+          handler: function(request, reply) {
+              mAccounts.getAccounts(function(err,accounts){
+                if(!err){
+                  reply(accounts);
+                }
+              })
+          }
+        })
 
         server.route({
             method: 'GET',

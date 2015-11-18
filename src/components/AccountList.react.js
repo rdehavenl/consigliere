@@ -6,7 +6,7 @@ module.exports = React.createClass({
   render: function(){
     var content = this.props.accounts.map(function(account){
       return (
-        <Account key={account.number} name={account.name} number={account.number} />
+        <Account key={account.accountNumber} name={account.accountName} number={account.accountNumber} />
       )
     });
     return (
