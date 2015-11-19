@@ -40,7 +40,7 @@ server.register(require('vision'), function (err) {
           method: 'GET',
           path: '/api/accounts',
           handler: function(request, reply) {
-              mAccounts.getAccounts(function(err,accounts){
+              mAccounts.find({},function(err,accounts){
                 if(!err){
                   reply(accounts);
                 }
