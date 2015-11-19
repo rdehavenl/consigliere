@@ -79,7 +79,11 @@ describe("Accounts Model", function() {
         should.not.exist(err);
         should.exist(account);
         expect(account[0].accountNumber).to.equal('7891');
-        done();
+        account[0].close(function(err){
+          if(!err){
+            done();
+          }
+        })
       });
     });
   });
