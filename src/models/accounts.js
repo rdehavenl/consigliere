@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost/consigliere');
+mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/consigliere');
 
 
 var accountSchema = new Schema({
