@@ -4,81 +4,81 @@ var should = chai.should();
 var accounts = require('../../src/models/accounts');
 
 describe("Accounts Model", function() {
-
-  describe("Initialize", function() {
-    it("Initializes Accounts Model",function(done){
-      accounts.init(function(err){
+  describe("Purge database", function(){
+    it("Purges the database", function(done){
+      accounts.remove({},function(err){
         should.not.exist(err);
         done();
       });
     });
   });
-  describe("Purge", function(){
-    it("Purges all records from database", function(done){
-      accounts.purge(function(err){
-        should.not.exist(err);
-        done();
-      })
-    })
-  });
-  describe("Add Single Account", function() {
-    it("Adds a single account",function(done){
-      accounts.addSingleAccount("12345","ACCOUNT-A","arn:for:account:a",function(err){
+  describe("Add a Master Account", function() {
+    it("Adds a Master account",function(done){
+      var account = new accounts({
+        name: 'Shared',
+        accountNumber: '12345',
+        type: 'master'
+      });
+      account.save(function(err){
         should.not.exist(err);
         done();
       });
     });
   });
-  describe("Add Multiple Accounts", function(){
-    it("Adds multiple accounts",function(done){
-      var accountsArray = [
-        {accountNumber:"23456",accountName:"ACCOUNT-B",roleArn:"arn:for:account:b"},
-        {accountNumber:"34567",accountName:"ACCOUNT-C",roleArn:"arn:for:account:c"}
-      ];
-      accounts.addMultipleAccounts(accountsArray,function(err){
+  describe("Add a Duplicate Master Account", function() {
+    it("Fails to add duplicate account",function(done){
+      var account = new accounts({
+        name: 'Shared',
+        accountNumber: '12345',
+        type: 'master'
+      });
+      account.save(function(saveErr){
+        should.exist(saveErr);
+        done();
+      });
+    });
+  });
+  describe("Add a Slave Account", function() {
+    it("Adds a Slave account",function(done){
+      var account = new accounts({
+        name: 'Slave1',
+        accountNumber: '7891',
+        type: 'slave'
+      });
+      account.save(function(err){
         should.not.exist(err);
         done();
       });
     });
   });
-  describe("Add duplicate account", function(){
-    it("Fails to add a duplicate account", function(done){
-      accounts.addSingleAccount("12345","ACCOUNT-A","arn:for:account:a",function(err){
+  describe("Add a duplicate slave Account", function() {
+    it("Fails to add a duplicate slave account",function(done){
+      var account = new accounts({
+        name: 'Slave1',
+        accountNumber: '7891',
+        type: 'slave'
+      });
+      account.save(function(err){
         should.exist(err);
         done();
       });
     });
   });
-  describe("Get Accounts", function(){
+  describe("Gets all accounts", function() {
     it("Gets list of accounts",function(done){
-      var matchArray = [
-        {accountNumber:"12345",accountName:"ACCOUNT-A",roleArn:"arn:for:account:a"},
-        {accountNumber:"23456",accountName:"ACCOUNT-B",roleArn:"arn:for:account:b"},
-        {accountNumber:"34567",accountName:"ACCOUNT-C",roleArn:"arn:for:account:c"}
-      ]
-      accounts.getAccounts(function(err,listOfAccounts){
+      accounts.find({},function(err,listOfAccounts){
         should.not.exist(err);
-        expect(listOfAccounts).to.deep.equal(matchArray);
+        should.exist(listOfAccounts);
         done();
       });
     });
   });
-
-  describe("Get account by id", function(){
-    it("Gets account by id", function(done){
-      var expectedAccount = {accountNumber:"12345",accountName:"ACCOUNT-A",roleArn:"arn:for:account:a"};
-      accounts.getAccountById("12345",function(err,account){
+  describe("Gets an account by number", function() {
+    it("Gets a single account by number",function(done){
+      accounts.find({accountNumber:'7891'},function(err,account){
         should.not.exist(err);
-        expect(account).to.deep.equal(expectedAccount);
-        done();
-      });
-    });
-  });
-
-  describe("Close", function() {
-    it("Closes any database connections",function(done){
-      accounts.close(function(err){
-        should.not.exist(err);
+        should.exist(account);
+        expect(account[0].accountNumber).to.equal('7891');
         done();
       });
     });

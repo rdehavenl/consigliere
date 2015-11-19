@@ -25,11 +25,7 @@ gulp.task('default', function(){
 });
 
 gulp.task('test', function(){
-  bower({ cmd: 'update'});
-  mkdirp('data',function(err){
-    if(!err){
-      return gulp.src('test/**/*.js', {read: false})
-        .pipe(mocha({reporter: 'spec'}));
-      }
-    });
+  // bower({ cmd: 'update'});
+  return gulp.src('test/**/*.js', {read: false})
+    .pipe(mocha({reporter: 'spec'}));
 });

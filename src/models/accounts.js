@@ -1,83 +1,49 @@
-var config = require('config');
-var sqlite3 = require('sqlite3').verbose();
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 
-var Accounts = {};
+mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost/consigliere');
 
-// Open Sqlite3 DB file
-Accounts.init = function(callback){
-  var dbPath; // database path
-  // Relative or Absolute path to Sqlite3 DB file
-  switch(config.Database.file.type){
-    case 'absolute':
-      dbPath = config.Database.file.path;
-      break;
-    default:
-      // go up one level to avoid creation under __dirname/src/models
-      dbPath = __dirname+'/../../'+config.Database.file.path;
-      break;
-  }
-  this.db = new sqlite3.Database(dbPath);
-  this.db.run("CREATE TABLE IF NOT EXISTS accounts (accountNumber TEXT PRIMARY KEY, accountName TEXT, roleArn TEXT)",callback);
-}
 
-Accounts.purge = function(callback){
-  var stmt = this.db.prepare("DELETE FROM accounts");
-  stmt.run();
-  stmt.finalize(callback);
-}
+var accountSchema = new Schema({
+  name: { type: String, required: true, unique: true },
+  type: { type: String, required: true},
+  arn: String,
+  accountNumber: { type: String, required: true, unique: true },
+  created_at: Date,
+  updated_at: Date
+});
 
-Accounts.getAccounts = function(callback){
-  var accounts = [];
-  //Iterate through each row in accounts table
-  this.db.each("SELECT * FROM accounts", function(err, row) {
-    if(!err){
-      accounts.push(row);
-    }
-  }, function(err,numberOfRows){
-    if(!err){
-      //return accounts list on completion callback
-      callback(null,accounts);
-    }
-  });
-};
+accountSchema.pre('save',function(next){
+  var currentDate = new Date();
+  this.updated_at = currentDate;
+  if(!this.created_at)
+    this.created_at = currentDate;
+  next();
+});
 
-Accounts.addMultipleAccounts = function(accounts,callback){
-  var stmt = this.db.prepare("INSERT INTO accounts VALUES (?,?,?)");
-  for (var i = 0; i < accounts.length; i++) {
-      stmt.run(accounts[i].accountNumber,accounts[i].accountName,accounts[i].roleArn);
-  }
-  stmt.finalize(callback);
-}
-
-Accounts.addSingleAccount = function(accountNumber,accountName,roleArn,callback){
-  var stmt = this.db.prepare("INSERT INTO accounts VALUES (?,?,?)");
-  stmt.run(accountNumber,accountName,roleArn,function(err){
+accountSchema.methods.close = function(callback){
+  mongoose.connection.close(function(err){
     if(err){
-      stmt.finalize();
       callback(err);
     }
     else {
-      stmt.finalize(callback);
+      callback(null);
     }
+  })
+}
+
+var Account = mongoose.model('Account', accountSchema);
+
+process.on('SIGINT', function() {
+  mongoose.connection.close(function () {
+    process.exit(0);
   });
-}
+});
 
-Accounts.getAccountById = function(accountNumber,callback){
-  var stmt = this.db.prepare("SELECT * FROM accounts WHERE accountNumber = ?");
-  stmt.get(accountNumber,function(err,row){
-    if(err){
-      stmt.finalize();
-      callback(err);
-    }
-    else {
-      stmt.finalize();
-      callback(null,row);
-    }
+process.on('SIGTERM', function() {
+  mongoose.connection.close(function () {
+    process.exit(0);
   });
-}
+});
 
-Accounts.close = function(callback){
-  this.db.close(callback);
-}
-
-module.exports = Accounts;
+module.exports = Account;
