@@ -36,6 +36,7 @@ server.register(require('vision'), function (err) {
             }
         });
 
+        // GET list of accounts
         server.route({
           method: 'GET',
           path: '/api/accounts',
@@ -44,9 +45,120 @@ server.register(require('vision'), function (err) {
                 if(!err){
                   reply(accounts);
                 }
-              })
+              });
           }
-        })
+        });
+        // POST (save) an account
+        server.route({
+          method: 'POST',
+          path: '/api/accounts',
+          handler: function(request,reply) {
+            var account = new mAccounts();
+            if(typeof request.payload.name != 'undefined')
+              account.name = request.payload.name;
+
+            if(typeof request.payload.type != 'undefined')
+              account.type = request.payload.type;
+
+            if(typeof request.payload.arn != 'undefined')
+              account.arn = request.payload.arn;
+
+            if(typeof request.payload.accessKey != 'undefined')
+              account.accessKey = request.payload.accessKey;
+
+            if(typeof request.payload.accessSecret != 'undefined')
+              account.accessSecret = request.payload.accessSecret;
+
+            if(typeof request.payload.accountNumber != 'undefined')
+              account.accountNumber = request.payload.accountNumber;
+
+            account.save(function(err){
+              if(!err){
+                reply(account).code(201);
+              }
+              else {
+                switch(err.code){
+                  case 11000:
+                    reply('Duplicate record').code(400);
+                    break;
+                  default:
+                    reply('Unknown Error').code(500);
+                    break;
+                }
+              }
+            })
+          }
+        });
+        //PUT (update) an account
+        server.route({
+          method: 'PUT',
+          path: '/api/accounts',
+          handler: function(request,reply) {
+            mAccounts.findOne({accountNumber:request.payload.accountNumber},function(err,account){
+              if(err){
+                console.log(err)
+                reply("Failed").code(400);
+              }
+              else {
+                console.log('%j',account);
+                if(typeof request.payload.name != 'undefined')
+                  account.name = request.payload.name;
+
+                if(typeof request.payload.type != 'undefined')
+                  account.type = request.payload.type;
+
+                if(typeof request.payload.arn != 'undefined')
+                  account.arn = request.payload.arn;
+
+                if(typeof request.payload.accessKey != 'undefined')
+                  account.accessKey = request.payload.accessKey;
+
+                if(typeof request.payload.accessSecret != 'undefined')
+                  account.accessSecret = request.payload.accessSecret;
+
+                account.update(function(err){
+                  if(!err){
+                    reply(account).code(202);
+                  }
+                  else {
+                    switch(err.code){
+                      case 11000:
+                        reply('Duplicate record').code(400);
+                        break;
+                      default:
+                        reply('Unknown Error').code(500);
+                        break;
+                    }
+                  }
+                });
+              }
+            });
+          }
+        });
+        // DELETE an account
+        server.route({
+          method: 'DELETE',
+          path: '/api/accounts',
+          handler: function(request,reply) {
+            mAccounts.findOne({accountNumber:request.payload.accountNumber},function(err,account){
+              if(err){
+                console.log(err);
+                reply("Failed").code(400);
+              }
+              else {
+                account.remove(function(err){
+                  if(err){
+                    console.log(err);
+                    reply("Failed").code(500);
+                  }
+                  else {
+                    reply("Deleted").code(204);
+                  }
+                });
+              }
+            });
+          }
+        });
 
         server.route({
             method: 'GET',
