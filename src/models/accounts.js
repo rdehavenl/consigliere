@@ -8,6 +8,8 @@ var accountSchema = new Schema({
   name: { type: String, required: true, unique: true },
   type: { type: String, required: true},
   arn: String,
+  accessKey: String,
+  accessSecret: String,
   accountNumber: { type: String, required: true, unique: true },
   created_at: Date,
   updated_at: Date
