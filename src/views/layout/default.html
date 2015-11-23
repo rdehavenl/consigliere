@@ -11,20 +11,16 @@
 </head>
 <body>
 
-    <div class="container">
+    <!-- <div class="container"> -->
 
         {{! Import the contents of header.html from partials}}
         {{> header}}
+    <!-- </div> -->
 
-        {{! Every view gets inserted here }}
         {{{content}}}
 
-
-
       {{! Import the contents of footer.html from partials}}
-      <div class="footer navbar-fixed-bottom">
+
       {{> footer}}
-      </div>
-    </div>
 </body>
 </html>

@@ -10,19 +10,13 @@ module.exports = React.createClass({
     return {accounts:[]};
   },
   componentDidMount: function() {
-    var that = this;
     jquery.get('api/accounts',function(data){
-      that.setState({accounts:data});
-    });
+      this.setState({accounts:data});
+    }.bind(this));
   },
   render: function(){
     return (
-      <div className="accountsPage">
-        <MasterAccount name="name" accessKey="FOOBAR" />
-        <AccountForm />
-        <AccountList accounts={this.state.accounts}/>
-        <AccountForm />
-      </div>
+      <AccountForm />
     )
   }
 });
