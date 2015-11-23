@@ -46,47 +46,50 @@ module.exports = React.createClass({
   },
   render: function(){
     return (
-      <div className='container'>
-        <form onSubmit={this.handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="accountNameInput">Account Name</label>
-            <input type="text" className="form-control" id="accountNameInput" placeholder="Name" value={this.state.accountName} onChange={this.handleNameChange}/>
-          </div>
-          <div className="form-group">
-            <label htmlFor="accountNumberInput">Account Number</label>
-            <input type="text" className="form-control" id="accountNumberInput" placeholder="Number" value={this.state.accountNumber} onChange={this.handleNumberChange}/>
-          </div>
-          <div className="form-group">
-          <div className="radio">
-              { function(){
-                if(this.state.choice=='role') {
-                  return <label><input id='roleChoice' name='choice' type="radio" checked='true' onChange={this.handleChoiceChange}/>Use IAM role of local server</label>
-                }
-                else {
-                  return <label><input id='roleChoice' name='choice' type="radio" onChange={this.handleChoiceChange}/>Use IAM role of local server</label>
-                }
-              }.call(this)}
+        <div style={{display: this.props.display}}>
+        <div className='container'>
+        <h3>Add a master account</h3>
+          <form onSubmit={this.handleSubmit}>
+            <div className="form-group">
+              <label htmlFor="accountNameInput">Account Name</label>
+              <input type="text" className="form-control" id="accountNameInput" placeholder="Name" value={this.state.accountName} onChange={this.handleNameChange}/>
             </div>
-          </div>
-          <div className="form-group">
-            <div className="input-group">
-              <span className="input-group-addon">
+            <div className="form-group">
+              <label htmlFor="accountNumberInput">Account Number</label>
+              <input type="text" className="form-control" id="accountNumberInput" placeholder="Number" value={this.state.accountNumber} onChange={this.handleNumberChange}/>
+            </div>
+            <div className="form-group">
+            <div className="radio">
                 { function(){
-                  if(this.state.choice=='keys') {
-                    return <input id='keysChoice' name='choice' type="radio" checked='true' onChange={this.handleChoiceChange}/>
+                  if(this.state.choice=='role') {
+                    return <label><input id='roleChoice' name='choice' type="radio" checked='true' onChange={this.handleChoiceChange}/>Use IAM role of local server</label>
                   }
                   else {
-                    return <input id='keysChoice' name='choice' type="radio" onChange={this.handleChoiceChange}/>
+                    return <label><input id='roleChoice' name='choice' type="radio" onChange={this.handleChoiceChange}/>Use IAM role of local server</label>
                   }
                 }.call(this)}
-              </span>
-              <input id='accessKeyInput' type="text" className="form-control" placeholder='Access Key' value={this.state.accessKey} onFocus={this.changeChoice} onChange={this.handleAccessKeyChange}/>
-              <input id='accessSecretInput' type='password' className='form-control' placeholder='Secret' value={this.state.accessSecret} onFocus={this.changeChoice} onChange={this.handleAccessSecretChange}/>
+              </div>
             </div>
-          </div>
-          <button type="submit" className="btn btn-default">Add Account</button>
-        </form>
-      </div>
+            <div className="form-group">
+              <div className="input-group">
+                <span className="input-group-addon">
+                  { function(){
+                    if(this.state.choice=='keys') {
+                      return <input id='keysChoice' name='choice' type="radio" checked='true' onChange={this.handleChoiceChange}/>
+                    }
+                    else {
+                      return <input id='keysChoice' name='choice' type="radio" onChange={this.handleChoiceChange}/>
+                    }
+                  }.call(this)}
+                </span>
+                <input id='accessKeyInput' type="text" className="form-control" placeholder='Access Key' value={this.state.accessKey} onFocus={this.changeChoice} onChange={this.handleAccessKeyChange}/>
+                <input id='accessSecretInput' type='password' className='form-control' placeholder='Secret' value={this.state.accessSecret} onFocus={this.changeChoice} onChange={this.handleAccessSecretChange}/>
+              </div>
+            </div>
+            <button type="submit" className="btn btn-default">Add Account</button>
+          </form>
+        </div>
+        </div>
     )
   }
 });
