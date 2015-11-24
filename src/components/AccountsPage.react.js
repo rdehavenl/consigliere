@@ -15,14 +15,56 @@ module.exports = React.createClass({
       this.setState({accounts:data});
     }.bind(this));
   },
+  handleMasterSubmit : function(account){
+    account.type = 'master';
+    jquery.ajax({
+      url: 'api/accounts',
+      dataType: 'json',
+      type: 'POST',
+      data: account,
+      success: function(data) {
+        jquery.get('api/accounts',function(data){
+          this.setState({accounts:data});
+        }.bind(this));
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error(err.toString());
+      }
+    });
+  },
+  handleSlaveSubmit : function(account){
+    account.type = 'slave';
+    jquery.ajax({
+      url: 'api/accounts',
+      dataType: 'json',
+      type: 'POST',
+      data: account,
+      success: function(data) {
+        jquery.get('api/accounts',function(data){
+          this.setState({accounts:data});
+        }.bind(this));
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error(err.toString());
+      }
+    });
+  },
   render: function(){
     var masterFormDisplay = 'initial';
+    var additionalFormDisplay ='none';
     this.state.accounts.forEach(function(account){
-      if(account.type == 'master')
+      if(account.type == 'master'){
         masterFormDisplay = 'none';
+        additionalFormDisplay = 'initial';
+      }
     });
     return (
-      <MasterAccountForm display={masterFormDisplay}/>
+      <div>
+        <MasterAccountForm display={masterFormDisplay} onMasterSubmit={this.handleMasterSubmit}/>
+        <AccountList accounts={this.state.accounts}/>
+        <AccountForm display={additionalFormDisplay} onSlaveSubmit={this.handleSlaveSubmit}/>
+      </div>
+
     )
   }
 });

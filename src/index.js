@@ -54,14 +54,18 @@ server.register(require('vision'), function (err) {
           path: '/api/accounts',
           handler: function(request,reply) {
             var account = new mAccounts();
-            if(typeof request.payload.name != 'undefined')
-              account.name = request.payload.name;
+            console.log(request.payload);
+            if(typeof request.payload.accountName != 'undefined')
+              account.accountName = request.payload.accountName;
+
+            if(typeof request.payload.accountNumber != 'undefined')
+              account.accountNumber = request.payload.accountNumber;
 
             if(typeof request.payload.type != 'undefined')
               account.type = request.payload.type;
 
-            if(typeof request.payload.arn != 'undefined')
-              account.arn = request.payload.arn;
+            if(typeof request.payload.roleArn != 'undefined')
+              account.roleArn = request.payload.roleArn;
 
             if(typeof request.payload.accessKey != 'undefined')
               account.accessKey = request.payload.accessKey;
@@ -69,8 +73,8 @@ server.register(require('vision'), function (err) {
             if(typeof request.payload.accessSecret != 'undefined')
               account.accessSecret = request.payload.accessSecret;
 
-            if(typeof request.payload.accountNumber != 'undefined')
-              account.accountNumber = request.payload.accountNumber;
+            if(typeof request.payload.choice != 'undefined')
+              account.choice = request.payload.choice;
 
             account.save(function(err){
               if(!err){
@@ -100,21 +104,23 @@ server.register(require('vision'), function (err) {
                 reply("Failed").code(400);
               }
               else {
-                console.log('%j',account);
-                if(typeof request.payload.name != 'undefined')
-                  account.name = request.payload.name;
+                if(typeof request.payload.accountName != 'undefined')
+                  account.accountName = request.payload.accountName;
 
                 if(typeof request.payload.type != 'undefined')
                   account.type = request.payload.type;
 
-                if(typeof request.payload.arn != 'undefined')
-                  account.arn = request.payload.arn;
+                if(typeof request.payload.roleArn != 'undefined')
+                  account.roleArn = request.payload.roleArn;
 
                 if(typeof request.payload.accessKey != 'undefined')
                   account.accessKey = request.payload.accessKey;
 
                 if(typeof request.payload.accessSecret != 'undefined')
                   account.accessSecret = request.payload.accessSecret;
+
+                if(typeof request.payload.choice != 'undefined')
+                  account.choice = request.payload.choice;
 
                 account.update(function(err){
                   if(!err){

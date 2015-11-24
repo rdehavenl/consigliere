@@ -5,9 +5,6 @@ module.exports = React.createClass({
   getInitialState: function(){
     return {accountName:'',accountNumber:'',roleArn:'',accessKey:'',accessSecret:'',choice:'role'}
   },
-  handleSubmit: function(e){
-    e.preventDefault();
-  },
   handleNameChange: function(e){
     this.setState({accountName:e.target.value});
   },
@@ -43,6 +40,10 @@ module.exports = React.createClass({
         this.setState({choice:'keys'});
       break;
     }
+  },
+  handleSubmit: function(e){
+    e.preventDefault();
+    this.props.onMasterSubmit(this.state);
   },
   render: function(){
     return (

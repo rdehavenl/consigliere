@@ -5,9 +5,10 @@ mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/consigliere');
 
 
 var accountSchema = new Schema({
-  name: { type: String, required: true, unique: true },
+  accountName: { type: String, required: true, unique: true },
   type: { type: String, required: true},
-  arn: String,
+  choice: { type: String, required: true},
+  roleArn: String,
   accessKey: String,
   accessSecret: String,
   accountNumber: { type: String, required: true, unique: true },
