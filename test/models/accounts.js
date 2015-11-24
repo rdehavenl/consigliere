@@ -50,7 +50,6 @@ describe("Accounts Model", function() {
         roleArn:'arn:something:or:the:other'
       });
       account.save(function(err){
-        console.log(err);
         should.not.exist(err);
         done();
       });
