@@ -15,9 +15,10 @@ describe("Accounts Model", function() {
   describe("Add a Master Account", function() {
     it("Adds a Master account",function(done){
       var account = new accounts({
-        name: 'Shared',
+        accountName: 'Shared',
         accountNumber: '12345',
-        type: 'master'
+        type: 'master',
+        choice:'role'
       });
       account.save(function(err){
         should.not.exist(err);
@@ -28,9 +29,10 @@ describe("Accounts Model", function() {
   describe("Add a Duplicate Master Account", function() {
     it("Fails to add duplicate account",function(done){
       var account = new accounts({
-        name: 'Shared',
+        accountName: 'Shared',
         accountNumber: '12345',
-        type: 'master'
+        type: 'master',
+        choice:'role'
       });
       account.save(function(saveErr){
         should.exist(saveErr);
@@ -41,11 +43,14 @@ describe("Accounts Model", function() {
   describe("Add a Slave Account", function() {
     it("Adds a Slave account",function(done){
       var account = new accounts({
-        name: 'Slave1',
+        accountName: 'Slave1',
         accountNumber: '7891',
-        type: 'slave'
+        type: 'slave',
+        choice: 'role',
+        roleArn:'arn:something:or:the:other'
       });
       account.save(function(err){
+        console.log(err);
         should.not.exist(err);
         done();
       });
@@ -54,9 +59,11 @@ describe("Accounts Model", function() {
   describe("Add a duplicate slave Account", function() {
     it("Fails to add a duplicate slave account",function(done){
       var account = new accounts({
-        name: 'Slave1',
+        accountName: 'Slave1',
         accountNumber: '7891',
-        type: 'slave'
+        type: 'slave',
+        choice: 'role',
+        roleArn:'arn:something:or:the:other'
       });
       account.save(function(err){
         should.exist(err);
