@@ -1,4 +1,6 @@
-body { padding-top: 70px; }
+body { padding-top: 70px;
+margin-bottom: 60px;
+}
 
 .navbar-brand>img {
    max-height: 100%;
@@ -16,6 +18,8 @@ body { padding-top: 70px; }
 .label-as-badge {
     border-radius: 1em;
 }
+
+
 
 .footer {
   font-size:10px;
