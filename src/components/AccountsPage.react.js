@@ -49,6 +49,22 @@ module.exports = React.createClass({
       }
     });
   },
+  handleAccountDelete : function(account){
+    jquery.ajax({
+      url: 'api/accounts',
+      dataType: 'json',
+      type: 'DELETE',
+      data: account,
+      success: function(data){
+        jquery.get('api/accounts',function(data){
+          this.setState({accounts:data});
+        }.bind(this));
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error(err.toString());
+      }
+    });
+  },
   render: function(){
     var masterFormDisplay = 'initial';
     var additionalFormDisplay ='none';
@@ -61,7 +77,7 @@ module.exports = React.createClass({
     return (
       <div>
         <MasterAccountForm display={masterFormDisplay} onMasterSubmit={this.handleMasterSubmit}/>
-        <AccountList accounts={this.state.accounts}/>
+        <AccountList accounts={this.state.accounts} onDelete={this.handleAccountDelete}/>
         <AccountForm display={additionalFormDisplay} onSlaveSubmit={this.handleSlaveSubmit}/>
       </div>
 
