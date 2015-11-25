@@ -5,9 +5,17 @@ var Account = require('./Account.react');
 module.exports = React.createClass({
   render: function(){
     var content = this.props.accounts.map(function(account){
-      return (
-        <Account key={account.accountNumber} name={account.accountName} number={account.accountNumber} />
-      )
+      if(account.type == 'master'){
+        return (
+          <Account type='master' key={account.accountNumber} account={account}  />
+        )
+      }
+      else {
+        return (
+          <Account type='slave' key={account.accountNumber} account={account}  />
+        )
+      }
+
     });
     return (
       <div className="accountList">
