@@ -26,13 +26,22 @@ margin-bottom: 60px;
 }
 
 .testSuccess {
-  font-family:10px;
+  font-size:9px;
+  font-weight:bold;
+}
+
+.testFailed {
+  font-size:9px;
+  font-weight:bold;
 }
 
 .testSuccess .glyphicon {
   color: green;
 }
 
+
+
 .testFailed .glyphicon {
+  font-size:8px;
   color: red;
 }

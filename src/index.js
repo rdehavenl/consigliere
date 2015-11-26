@@ -187,10 +187,10 @@ server.register(require('vision'), function (err) {
                       };
                       support.describeTrustedAdvisorChecks(params, function(err, data) {
                         if (err){
-                          reply("Failed").code(400);
+                          reply({"result":"failed"}).code(400);
                         }
                         else {
-                          reply("Success").code(200);
+                          reply({"result":"success"}).code(200);
                         }
                       });
                     break;
@@ -202,10 +202,10 @@ server.register(require('vision'), function (err) {
                       };
                       support.describeTrustedAdvisorChecks(params, function(err, data) {
                         if (err){
-                          reply("Failed").code(400);
+                          reply({"result":"failed"}).code(400);
                         }
                         else {
-                          reply("Success").code(200);
+                          reply({"result":"success"}).code(200);
                         }
                       });
                     break;
@@ -223,10 +223,10 @@ server.register(require('vision'), function (err) {
                     };
                     support.describeTrustedAdvisorChecks(params, function(err, data) {
                       if (err){
-                        reply("Failed").code(400);
+                        reply({"result":"failed"}).code(400);
                       }
                       else {
-                        reply("Success").code(200);
+                        reply({"result":"success"}).code(200);
                       }
                     });
                   break;

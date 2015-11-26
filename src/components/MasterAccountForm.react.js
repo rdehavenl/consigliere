@@ -48,7 +48,7 @@ module.exports = React.createClass({
       dataType: 'json',
       type: 'POST',
       data: this.state,
-      success: function(){
+      success: function(data){
         this.setState({testSuccess:'initial'});
       }.bind(this),
       error: function(xhr, status, err) {
