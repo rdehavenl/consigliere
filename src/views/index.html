@@ -1,2 +1,8 @@
 
-Home
+  <div class='container-fluid'>
+    {{#unless accounts.length}}
+    <div class='vcenter text-center'>
+        There appears to be no account setup yet. Please set one up <a href='accounts'>here</a>
+    </div>
+    {{/unless}}
+  </div>

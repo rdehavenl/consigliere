@@ -1,9 +1,10 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
+var jquery = require('jquery');
 
 module.exports = React.createClass({
   getInitialState: function(){
-    return {accountName:'',accountNumber:'',roleArn:'',accessKey:'',accessSecret:'',choice:'role'}
+    return {type:'master', testFailed:'none',testSuccess:'none',accountName:'',accountNumber:'',roleArn:'',accessKey:'',accessSecret:'',choice:'role'}
   },
   handleNameChange: function(e){
     this.setState({accountName:e.target.value});
@@ -40,6 +41,21 @@ module.exports = React.createClass({
         this.setState({choice:'keys'});
       break;
     }
+  },
+  handleAuthTest: function(e){
+    jquery.ajax({
+      url: 'api/authtest',
+      dataType: 'json',
+      type: 'POST',
+      data: this.state,
+      success: function(){
+        this.setState({testSuccess:'initial'});
+      }.bind(this),
+      error: function(xhr, status, err) {
+        this.setState({testFailed:'initial'});
+        console.error(err.toString());
+      }.bind(this)
+    });
   },
   handleSubmit: function(e){
     e.preventDefault();
@@ -87,7 +103,11 @@ module.exports = React.createClass({
                 <input id='accessSecretInput' type='password' className='form-control' placeholder='Secret' value={this.state.accessSecret} onFocus={this.changeChoice} onChange={this.handleAccessSecretChange}/>
               </div>
             </div>
-            <button type="submit" className="btn btn-default">Add Account</button>
+            <button type="submit" className="btn btn-default">Add Account</button>&nbsp;
+            <button onClick={this.handleAuthTest} type='button' className='btn btn-default'>Authentication Test</button>&nbsp;
+            <span id="masterAccountFormTestSpinner"></span>&nbsp;
+            <span style={{display: this.state.testSuccess}} className="testSuccess">Test Successful <span className="glyphicon glyphicon-ok"></span></span>
+            <span style={{display: this.state.testFailed}} className="testFailed">Test Failed <span className="glyphicon glyphicon-alert"></span></span>
           </form>
         </div>
         </div>

@@ -2,6 +2,7 @@ var Hapi = require('hapi');
 var Path = require('path');
 var Hapi = require('hapi');
 var Hoek = require('hoek');
+var AWS = require('aws-sdk');
 var mAccounts = require('./models/accounts');
 
 mAccounts.init();
@@ -22,7 +23,8 @@ server.register(require('vision'), function (err) {
         path: 'views',
         layoutPath: 'views/layout',
         layout: 'default',
-        partialsPath: 'views/partials'
+        partialsPath: 'views/partials',
+        helpersPath: 'views/helpers'
     });
     server.register(require('inert'), function (err) {
 
@@ -32,7 +34,12 @@ server.register(require('vision'), function (err) {
             method: 'GET',
             path: '/',
             handler: function (request, reply) {
-                reply.view('index');
+              mAccounts.find({},function(err,accounts){
+                if(!err){
+                    reply.view('index',{accounts: accounts});
+                }
+              });
+
             }
         });
 
@@ -166,6 +173,68 @@ server.register(require('vision'), function (err) {
           }
         });
 
+        server.route({
+          method: 'POST',
+          path: '/api/authtest',
+          handler: function(request,reply){
+            switch(request.payload.type){
+              case 'master':
+                switch(request.payload.choice){
+                    case 'role':
+                      var support = new AWS.Support({region:'us-east-1'});
+                      var params = {
+                        language: 'en'
+                      };
+                      support.describeTrustedAdvisorChecks(params, function(err, data) {
+                        if (err){
+                          reply("Failed").code(400);
+                        }
+                        else {
+                          reply("Success").code(200);
+                        }
+                      });
+                    break;
+                    case 'keys':
+                      AWS.config.update({accessKeyId:request.payload.accessKey,secretAccessKey:request.payload.accessSecret});
+                      var support = new AWS.Support({region:'us-east-1'});
+                      var params = {
+                        language: 'en'
+                      };
+                      support.describeTrustedAdvisorChecks(params, function(err, data) {
+                        if (err){
+                          reply("Failed").code(400);
+                        }
+                        else {
+                          reply("Success").code(200);
+                        }
+                      });
+                    break;
+                }
+              break;
+              case 'slave':
+                switch(request.payload.choice){
+                  case 'role':
+                  break;
+                  case 'keys':
+                    AWS.config.update({accessKeyId:request.payload.accessKey,secretAccessKey:request.payload.accessSecret});
+                    var support = new AWS.Support({region:'us-east-1'});
+                    var params = {
+                      language: 'en'
+                    };
+                    support.describeTrustedAdvisorChecks(params, function(err, data) {
+                      if (err){
+                        reply("Failed").code(400);
+                      }
+                      else {
+                        reply("Success").code(200);
+                      }
+                    });
+                  break;
+                }
+              break;
+            }
+          }
+        });
         server.route({
             method: 'GET',
             path: '/accounts',
