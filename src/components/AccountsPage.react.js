@@ -16,7 +16,6 @@ module.exports = React.createClass({
     }.bind(this));
   },
   handleMasterSubmit : function(account){
-    account.type = 'master';
     jquery.ajax({
       url: 'api/accounts',
       dataType: 'json',
@@ -32,19 +31,21 @@ module.exports = React.createClass({
       }
     });
   },
-  handleSlaveSubmit : function(account){
-    account.type = 'slave';
+  handleSlaveSubmit : function(slaveForm){
+    slaveForm.setState({spinningAccountCreation:'initial'});
     jquery.ajax({
       url: 'api/accounts',
       dataType: 'json',
       type: 'POST',
-      data: account,
+      data: slaveForm.state,
       success: function(data) {
         jquery.get('api/accounts',function(data){
+          slaveForm.setState({spinningAccountCreation:'none'});
           this.setState({accounts:data});
         }.bind(this));
       }.bind(this),
       error: function(xhr, status, err) {
+        slaveForm.setState({spinningAccountCreation:'none'});
         console.error(err.toString());
       }
     });
