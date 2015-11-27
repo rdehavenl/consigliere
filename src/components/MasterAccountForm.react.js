@@ -1,27 +1,34 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 var jquery = require('jquery');
+var Spinner = require('spin');
 
 module.exports = React.createClass({
   getInitialState: function(){
-    return {type:'master', testFailed:'none',testSuccess:'none',accountName:'',accountNumber:'',roleArn:'',accessKey:'',accessSecret:'',choice:'role'}
+    return {spinningAuthTest:'none',spinningAccountCreation:'none', type:'master', testFailed:'none',testSuccess:'none',accountName:'',accountNumber:'',roleArn:'',accessKey:'',accessSecret:'',choice:'role'}
   },
   handleNameChange: function(e){
+    this.setState({testFailed:'none',testSuccess:'none'});
     this.setState({accountName:e.target.value});
   },
   handleNumberChange: function(e){
+    this.setState({testFailed:'none',testSuccess:'none'});
     this.setState({accountNumber:e.target.value});
   },
   handleArnChange: function(e){
+    this.setState({testFailed:'none',testSuccess:'none'});
     this.setState({roleArn:e.target.value});
   },
   handleAccessKeyChange: function(e){
+    this.setState({testFailed:'none',testSuccess:'none'});
     this.setState({accessKey:e.target.value});
   },
   handleAccessSecretChange: function(e){
+    this.setState({testFailed:'none',testSuccess:'none'});
     this.setState({accessSecret:e.target.value});
   },
   handleChoiceChange: function(e){
+    this.setState({testFailed:'none',testSuccess:'none'});
     switch(e.target.id){
       case 'roleChoice':
         this.setState({choice:'role'});
@@ -32,6 +39,7 @@ module.exports = React.createClass({
     }
   },
   changeChoice: function(e){
+    this.setState({testFailed:'none',testSuccess:'none'});
     switch(e.target.id){
       case 'roleArnInput':
         this.setState({choice:'role'});
@@ -43,23 +51,37 @@ module.exports = React.createClass({
     }
   },
   handleAuthTest: function(e){
-    jquery.ajax({
-      url: 'api/authtest',
-      dataType: 'json',
-      type: 'POST',
-      data: this.state,
-      success: function(data){
-        this.setState({testSuccess:'initial'});
-      }.bind(this),
-      error: function(xhr, status, err) {
-        this.setState({testFailed:'initial'});
-        console.error(err.toString());
-      }.bind(this)
-    });
+    var currButton = e.target;
+    if(!currButton.disabled){
+      currButton.disabled = true;
+      this.setState({spinningAuthTest:'initial'});
+      jquery.ajax({
+        url: 'api/authtest',
+        dataType: 'json',
+        type: 'POST',
+        data: this.state,
+        success: function(data){
+          this.setState({spinningAuthTest:'none'});
+          currButton.disabled = false;
+          this.setState({testSuccess:'initial'});
+        }.bind(this),
+        error: function(xhr, status, err) {
+          this.setState({spinningAuthTest:'none'});
+          currButton.disabled = false;
+          this.setState({testFailed:'initial'});
+          console.error(err.toString());
+        }.bind(this)
+      });
+    }
   },
   handleSubmit: function(e){
     e.preventDefault();
-    this.props.onMasterSubmit(this.state);
+    var currButton = e.target;
+    if(!currButton.disabled){
+      currButton.disabled = true;
+      this.setState({testFailed:'none',testSuccess:'none'});
+      this.props.onMasterSubmit(this.state);
+    }
   },
   render: function(){
     return (
@@ -103,9 +125,14 @@ module.exports = React.createClass({
                 <input id='accessSecretInput' type='password' className='form-control' placeholder='Secret' value={this.state.accessSecret} onFocus={this.changeChoice} onChange={this.handleAccessSecretChange}/>
               </div>
             </div>
-            <button type="submit" className="btn btn-default">Add Account</button>&nbsp;
-            <button onClick={this.handleAuthTest} type='button' className='btn btn-default'>Authentication Test</button>&nbsp;
-            <span id="masterAccountFormTestSpinner"></span>&nbsp;
+            <button type="submit" className="btn btn-default">
+              <span style={{display: this.state.spinningAccountCreation}} ><span className="glyphicon glyphicon-refresh spinning"></span>&nbsp;</span>
+              Add Account
+            </button>&nbsp;
+            <button onClick={this.handleAuthTest} type='button' className='btn btn-default'>
+            <span style={{display: this.state.spinningAuthTest}} ><span className="glyphicon glyphicon-refresh spinning"></span>&nbsp;</span>
+              Authentication Test
+            </button>&nbsp;
             <span style={{display: this.state.testSuccess}} className="testSuccess">Test Successful <span className="glyphicon glyphicon-ok"></span></span>
             <span style={{display: this.state.testFailed}} className="testFailed">Test Failed <span className="glyphicon glyphicon-alert"></span></span>
           </form>
