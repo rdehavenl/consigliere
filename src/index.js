@@ -23,8 +23,7 @@ server.register(require('vision'), function (err) {
         path: 'views',
         layoutPath: 'views/layout',
         layout: 'default',
-        partialsPath: 'views/partials',
-        helpersPath: 'views/helpers'
+        partialsPath: 'views/partials'
     });
     server.register(require('inert'), function (err) {
 
