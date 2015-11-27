@@ -40,12 +40,12 @@ module.exports = React.createClass({
       data: slaveForm.state,
       success: function(data) {
         jquery.get('api/accounts',function(data){
-          slaveForm.setState({spinningAccountCreation:'none'});
+          slaveForm.setState({spinningAuthTest:'none',spinningAccountCreation:'none', testFailed:'none',testSuccess:'none',type:'slave',accountName:'',accountNumber:'',roleArn:'',accessKey:'',accessSecret:'',choice:'role'});
           this.setState({accounts:data});
         }.bind(this));
       }.bind(this),
       error: function(xhr, status, err) {
-        slaveForm.setState({spinningAccountCreation:'none'});
+        slaveForm.setState({spinningAuthTest:'none',spinningAccountCreation:'none', testFailed:'none',testSuccess:'none',type:'slave',accountName:'',accountNumber:'',roleArn:'',accessKey:'',accessSecret:'',choice:'role'});
         console.error(err.toString());
       }
     });
