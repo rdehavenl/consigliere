@@ -4,6 +4,7 @@ var Hapi = require('hapi');
 var Hoek = require('hoek');
 var AWS = require('aws-sdk');
 var mAccounts = require('./models/accounts');
+var scheduler = require('./lib/Scheduler');
 
 mAccounts.init();
 
@@ -84,7 +85,10 @@ server.register(require('vision'), function (err) {
 
             account.save(function(err){
               if(!err){
+                // Kick off cron after adding account
+                scheduler.scheduleSingle(request.payload.accountNumber);
                 reply(account).code(201);
+
               }
               else {
                 switch(err.code){
@@ -96,7 +100,7 @@ server.register(require('vision'), function (err) {
                     break;
                 }
               }
-            })
+            });
           }
         });
         //PUT (update) an account

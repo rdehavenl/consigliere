@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "gulp test",
-    "start": "node src/index.js",
+    "start": "NODE_CONFIG_DIR='./src/config' node src/index.js",
     "postinstall": "mkdir -p src/public/scripts; node_modules/bower/bin/bower install; node_modules/browserify/bin/cmd.js src/react/accounts.page.js -t [ babelify --presets [ es2015 react ] ] | node_modules/uglifyjs/bin/uglifyjs > src/public/scripts/bundled.js"
   },
   "repository": {
@@ -27,6 +27,7 @@
     "browserify": "^12.0.1",
     "casper": "^0.1.1",
     "config": "^1.16.0",
+    "cron": "^1.0.9",
     "gulp-bower": "0.0.10",
     "gulp-react": "^3.1.0",
     "handlebars": "^4.0.4",
