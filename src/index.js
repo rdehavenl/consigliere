@@ -4,7 +4,7 @@ var Hapi = require('hapi');
 var Hoek = require('hoek');
 var AWS = require('aws-sdk');
 var mAccounts = require('./models/accounts');
-var scheduler = require('./lib/Scheduler');
+var scheduler = require('./lib/scheduler');
 
 mAccounts.init();
 
