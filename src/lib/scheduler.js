@@ -17,7 +17,13 @@ Scheduler.scheduleSingle = function(accountNumber){
 }
 
 Scheduler.loadFromDatabase = function(){
-
+  mAccounts.find({}, function(err,accounts){
+    if(!err){
+      accounts.forEach(function(account){
+        Scheduler.scheduleSingle(account.accountNumber);
+      });
+    }
+  });
 }
 
 module.exports = Scheduler;
