@@ -1,6 +1,0 @@
-Database:
-  file:
-    type:
-      relative
-    path:
-      data/consigliere.sql

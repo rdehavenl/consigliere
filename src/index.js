@@ -5,6 +5,7 @@ var Hoek = require('hoek');
 var AWS = require('aws-sdk');
 var mAccounts = require('./models/accounts');
 var scheduler = require('./lib/scheduler');
+var auth = require('./lib/auth');
 
 mAccounts.init();
 
@@ -86,7 +87,7 @@ server.register(require('vision'), function (err) {
             account.save(function(err){
               if(!err){
                 // Kick off cron after adding account
-                scheduler.scheduleSingle(request.payload.accountNumber);
+                scheduler.scheduleSingle(account);
                 reply(account).code(201);
 
               }
@@ -180,62 +181,19 @@ server.register(require('vision'), function (err) {
           method: 'POST',
           path: '/api/authtest',
           handler: function(request,reply){
-            switch(request.payload.type){
-              case 'master':
-                switch(request.payload.choice){
-                    case 'role':
-                      var support = new AWS.Support({region:'us-east-1'});
-                      var params = {
-                        language: 'en'
-                      };
-                      support.describeTrustedAdvisorChecks(params, function(err, data) {
-                        if (err){
-                          reply({"result":"failed"}).code(400);
-                        }
-                        else {
-                          reply({"result":"success"}).code(200);
-                        }
-                      });
-                    break;
-                    case 'keys':
-                      AWS.config.update({accessKeyId:request.payload.accessKey,secretAccessKey:request.payload.accessSecret});
-                      var support = new AWS.Support({region:'us-east-1'});
-                      var params = {
-                        language: 'en'
-                      };
-                      support.describeTrustedAdvisorChecks(params, function(err, data) {
-                        if (err){
-                          reply({"result":"failed"}).code(400);
-                        }
-                        else {
-                          reply({"result":"success"}).code(200);
-                        }
-                      });
-                    break;
+            auth.getSupport(request.payload,function(err,support){
+              var params = {
+                language: 'en'
+              };
+              support.describeTrustedAdvisorChecks(params, function(err, data) {
+                if (err){
+                  reply({"result":"failed"}).code(400);
                 }
-              break;
-              case 'slave':
-                switch(request.payload.choice){
-                  case 'role':
-                  break;
-                  case 'keys':
-                    AWS.config.update({accessKeyId:request.payload.accessKey,secretAccessKey:request.payload.accessSecret});
-                    var support = new AWS.Support({region:'us-east-1'});
-                    var params = {
-                      language: 'en'
-                    };
-                    support.describeTrustedAdvisorChecks(params, function(err, data) {
-                      if (err){
-                        reply({"result":"failed"}).code(400);
-                      }
-                      else {
-                        reply({"result":"success"}).code(200);
-                      }
-                    });
-                  break;
+                else {
+                  reply({"result":"success"}).code(200);
                 }
-              break;
-            }
+              });
+            });
           }
         });
         server.route({

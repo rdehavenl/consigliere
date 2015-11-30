@@ -5,12 +5,12 @@ var statFetcher = require('./statfetcher');
 var config = require('config');
 
 
-Scheduler.scheduleSingle = function(accountNumber){
-  statFetcher.fetchStatsFor(accountNumber);
+Scheduler.scheduleSingle = function(account){
+  statFetcher.fetchStatsFor(account);
   var job = new CronJob({
     cronTime: config.Scheduler.CronPattern,
     onTick: function(){
-      statFetcher.fetchStatsFor(accountNumber);
+      statFetcher.fetchStatsFor(account);
     },
     start: true
   });
@@ -20,7 +20,7 @@ Scheduler.loadFromDatabase = function(){
   mAccounts.find({}, function(err,accounts){
     if(!err){
       accounts.forEach(function(account){
-        Scheduler.scheduleSingle(account.accountNumber);
+        Scheduler.scheduleSingle(account);
       });
     }
   });

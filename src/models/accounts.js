@@ -13,7 +13,11 @@ var accountSchema = new Schema({
   accessSecret: String,
   accountNumber: { type: String, required: true, unique: true },
   created_at: Date,
-  updated_at: Date
+  updated_at: Date,
+  refreshStatus: String,
+  lastRefreshed : Date,
+  lastRefreshStatus: String,
+  lastRefreshReason: String
 });
 
 accountSchema.pre('save',function(next){

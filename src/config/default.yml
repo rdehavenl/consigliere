@@ -1,2 +1,7 @@
 Scheduler:
-  CronPattern: '* */59 * * * *'
+  CronPattern: '* */15 * * * *'
+
+Defaults:
+  AWS:
+    Support:
+      Region: us-east-1
