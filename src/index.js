@@ -5,6 +5,7 @@ var Hoek = require('hoek');
 var AWS = require('aws-sdk');
 var mAccounts = require('./models/accounts');
 var scheduler = require('./lib/scheduler');
+var statFetcher = require('./lib/statfetcher');
 var auth = require('./lib/auth');
 
 mAccounts.init();
@@ -30,6 +31,13 @@ server.register(require('vision'), function (err) {
     server.register(require('inert'), function (err) {
 
         Hoek.assert(!err,err);
+        server.route({
+          method: 'GET',
+          path: '/favicon.ico',
+          handler: {
+            file: './public/images/favicon.png'
+          }
+        });
 
         server.route({
             method: 'GET',
@@ -37,7 +45,7 @@ server.register(require('vision'), function (err) {
             handler: function (request, reply) {
               mAccounts.find({},function(err,accounts){
                 if(!err){
-                    reply.view('index',{accounts: accounts});
+                  reply.view('index',{accounts: accounts});
                 }
               });
 

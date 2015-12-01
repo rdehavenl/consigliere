@@ -2,7 +2,8 @@ var StatFetcher = {};
 var aws = require('aws-sdk');
 var auth = require('./auth');
 var config = require('config');
-var redis = require("redis"),
+var redis = require("redis");
+var mAccounts = require('../models/accounts');
 
 client = redis.createClient(process.env.REDIS_URL || 'redis://127.0.0.1/6379');
 
@@ -54,8 +55,32 @@ StatFetcher.fetchStatsFor = function(account){
   });
 }
 
-StatFetcher.getStatsFor = function(account){
+StatFetcher.getStatsForAccount = function(account,callback){
+  client.keys(account.accountNumber+'_*',function(err,replies){
+    if(!err){
+      console.log(replies);
+    }
+    else {
+      callback(err);
+    }
+  });
+}
+
+StatFetcher.getStatusCountsForAccount = function(account,callback){
   
+}
+
+StatFetcher.getStatusCountsForAll = function(callback){
+  mAccounts.find({},function(err,accounts){
+    if(!err){
+      accounts.forEach(function(account){
+
+      })
+    }
+    else {
+      callback(err);
+    }
+  });
 }
 
 module.exports = StatFetcher;
