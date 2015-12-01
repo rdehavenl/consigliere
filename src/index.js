@@ -204,13 +204,6 @@ server.register(require('vision'), function (err) {
             });
           }
         });
-        server.route({
-            method: 'GET',
-            path: '/accounts',
-            handler: function (request, reply) {
-                reply.view('accounts');
-            }
-        });
 
         server.route({
             method: 'GET',
