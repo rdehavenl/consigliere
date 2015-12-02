@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "gulp test",
-    "start": "NODE_ENV=production NODE_CONFIG_DIR='./src/config' node src/index.js",
+    "start": "export NODE_ENV=production; export NODE_CONFIG_DIR='./src/config' ; node src/index.js",
     "postinstall": "mkdir -p src/public/scripts; node_modules/bower/bin/bower install; node_modules/browserify/bin/cmd.js src/react/app.js -t [ babelify --presets [ es2015 react ] ] | node_modules/uglifyjs/bin/uglifyjs > src/public/scripts/bundled.js"
   },
   "repository": {
