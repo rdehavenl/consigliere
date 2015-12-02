@@ -9,6 +9,7 @@ var statFetcher = require('./lib/statfetcher');
 var auth = require('./lib/auth');
 
 mAccounts.init();
+scheduler.loadFromDatabase();
 
 var server = new Hapi.Server();
 
@@ -184,7 +185,20 @@ server.register(require('vision'), function (err) {
             });
           }
         });
-
+        server.route({
+          method: 'GET',
+          path: '/api/accounts/statuscounts',
+          handler : function(request,reply){
+            statFetcher.getStatusCountsForAll(function(err,res){
+              if(!err){
+                reply(res).code(200);
+              }
+              else {
+                reply(err).code(400);
+              }
+            });
+          }
+        });
         server.route({
           method: 'POST',
           path: '/api/authtest',
