@@ -1,8 +1,0 @@
-Scheduler:
-  CronPattern: '* */15 * * * *'
-
-Defaults:
-  AWS:
-    Support:
-      Region: us-east-1
-      Language: en
