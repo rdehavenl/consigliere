@@ -61,7 +61,7 @@ margin-bottom: 60px;
     to { -webkit-transform: rotate(360deg); }
 }
 
-.costoptimization {
+.cost_optimizing {
   background-image: url('/images/categories.png');
   background-position: 0px 0px;
   height:100px;
@@ -85,7 +85,7 @@ margin-bottom: 60px;
   margin-left:110px;
 }
 
-.faulttolerance {
+.fault_tolerance {
   background-image: url('/images/categories.png');
   background-position: -300px 0px;
   height:100px;

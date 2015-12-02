@@ -1,28 +1,30 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
+var jquery = require('jquery');
 
 
 module.exports = React.createClass({
   getInitialState : function(){
     return {notavailableCount:0,okCount:0,warningCount:0,errorCount:0};
   },
+  componentDidMount: function() {
+    var not_available = 0;
+    var ok = 0;
+    var warning = 0;
+    var error = 0;
+    jquery.get('api/accounts/statuscounts',function(accounts){
+      accounts.forEach(function(account){
+        not_available += account.counts[this.props.category].not_available;
+        ok += account.counts[this.props.category].ok;
+        warning += account.counts[this.props.category].warning;
+        error += account.counts[this.props.category].error;
+      }.bind(this));
+      this.setState({notavailableCount:not_available,okCount:ok,warningCount:warning,errorCount:error});
+    }.bind(this));
+  },
   render: function(){
-    var displayType;
-    switch(this.props.category){
-      case 'security':
-        displayType='security';
-      break;
-      case 'costoptimization':
-        displayType='costoptimization';
-      break;
-      case 'performance':
-        displayType='performance';
-      break;
-      case 'faulttolerance':
-        displayType='faulttolerance';
-      break;
-    }
-    displayType+=' text-center';
+    // choose the right category image
+    var displayType = this.props.category + ' text-center';
     return (
       <div>
         <div className='text-center'>

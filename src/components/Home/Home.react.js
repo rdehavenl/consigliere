@@ -7,7 +7,7 @@ module.exports = React.createClass({
     return (
       <div className='vcenter'>
         <div className='col-lg-3'>
-          <CategorySummary category='costoptimization' title='Cost Optimization' />
+          <CategorySummary category='cost_optimizing' title='Cost Optimization' />
         </div>
         <div className='col-lg-3'>
           <CategorySummary category='performance' title='Performance' />
@@ -16,7 +16,7 @@ module.exports = React.createClass({
           <CategorySummary category='security' title='Security' />
         </div>
         <div className='col-lg-3'>
-          <CategorySummary category='faulttolerance' title='Fault Tolerance' />
+          <CategorySummary category='fault_tolerance' title='Fault Tolerance' />
         </div>
       </div>
     )
