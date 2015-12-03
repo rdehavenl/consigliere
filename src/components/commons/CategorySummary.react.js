@@ -26,12 +26,13 @@ module.exports = React.createClass({
   render: function(){
     // choose the right category image
     var displayType = this.props.category + ' text-center';
+    var link = "category/"+this.props.category;
     return (
       <div>
         <div className='text-center'>
           <h3><strong>{this.props.title}</strong></h3>
         </div>
-        <Link to={this.props.category}><div className={displayType}>
+        <Link to={link}><div className={displayType}>
         </div></Link>
         <div className='text-center'>
           <h2>

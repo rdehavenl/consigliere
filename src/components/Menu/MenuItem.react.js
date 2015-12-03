@@ -24,9 +24,10 @@ module.exports = React.createClass({
     else {
       displayType = 'initial';
     }
+    var link = "category/"+this.props.category;
     return (
       <li>
-        <Link to={this.props.category}>{this.props.title}&nbsp;
+        <Link to={link}>{this.props.title}&nbsp;
         <span style={{display: displayType}} className="label label-danger label-as-badge">
           {this.state.errorCount}
         </span>

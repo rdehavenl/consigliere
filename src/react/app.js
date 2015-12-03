@@ -17,10 +17,7 @@ ReactDOM.render(
     <Route path="/" component={App}>
       <IndexRoute component={Home} />
       <Route path="accounts" component={Accounts} />
-      <Route path="performance" component={Category} />
-      <Route path="cost_optimizing" component={Category} />
-      <Route path="security" component={Category} />
-      <Route path="fault_tolerance" component={Category} />
+      <Route path="category/:category" component={Category} />
     </Route>
   </Router>,
   document.getElementById('app-react')
