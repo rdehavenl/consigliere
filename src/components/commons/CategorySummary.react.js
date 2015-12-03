@@ -1,6 +1,7 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 var jquery = require('jquery');
+var Link = require('react-router').Link;
 
 
 module.exports = React.createClass({
@@ -30,8 +31,8 @@ module.exports = React.createClass({
         <div className='text-center'>
           <h3><strong>{this.props.title}</strong></h3>
         </div>
-        <div className={displayType}>
-        </div>
+        <Link to={this.props.category}><div className={displayType}>
+        </div></Link>
         <div className='text-center'>
           <h2>
             <span className="label label-default">{this.state.notavailableCount}</span>&nbsp;
