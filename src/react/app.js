@@ -18,9 +18,9 @@ ReactDOM.render(
       <IndexRoute component={Home} />
       <Route path="accounts" component={Accounts} />
       <Route path="performance" component={Category} />
-      <Route path="cost" component={Category} />
+      <Route path="cost_optimizing" component={Category} />
       <Route path="security" component={Category} />
-      <Route path="fault" component={Category} />
+      <Route path="fault_tolerance" component={Category} />
     </Route>
   </Router>,
   document.getElementById('app-react')
