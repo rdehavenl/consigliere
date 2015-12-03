@@ -8,7 +8,13 @@ module.exports = React.createClass({
   getInitialState : function(){
     return {notavailableCount:0,okCount:0,warningCount:0,errorCount:0};
   },
-  componentDidMount: function() {
+  componentWillUpdate : function(nextProps) {
+    if(nextProps.category !== this.props.category){
+      this.fetchData();
+      return true;
+    }
+  },
+  fetchData : function () {
     var not_available = 0;
     var ok = 0;
     var warning = 0;
@@ -22,6 +28,9 @@ module.exports = React.createClass({
       }.bind(this));
       this.setState({notavailableCount:not_available,okCount:ok,warningCount:warning,errorCount:error});
     }.bind(this));
+  },
+  componentDidMount: function() {
+    this.fetchData();
   },
   render: function(){
     // choose the right category image

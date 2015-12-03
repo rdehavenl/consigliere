@@ -5,7 +5,6 @@ var Menu = require('./Menu/Menu.react');
 
 module.exports = React.createClass({
   render: function(){
-    console.log(this.props.children);
     return (
       <div>
         <Menu />
