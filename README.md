@@ -12,6 +12,7 @@ Requirements
 
 * [NodeJS](https://nodejs.org/)
 * [Redis](https://redis.io/)
+* [MongoDB](https://www.mongodb.org/)
 
 Getting Started
 ================
