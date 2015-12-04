@@ -66,7 +66,7 @@ margin-bottom: 60px;
   background-position: 0px 0px;
   height:100px;
   width:100px;
-  margin-left:110px;
+  margin:0 auto;
 }
 
 a:hover .cost_optimizing {
@@ -78,7 +78,7 @@ a:hover .cost_optimizing {
   background-position: -100px 0px;
   height:100px;
   width:100px;
-  margin-left:110px;
+  margin:0 auto;
 }
 
 a:hover .performance {
@@ -90,7 +90,7 @@ a:hover .performance {
   background-position: -200px 0px;
   height:100px;
   width:100px;
-  margin-left:110px;
+  margin:0 auto;
 }
 a:hover .security {
   background-position: -200px 100px;
@@ -101,7 +101,7 @@ a:hover .security {
   background-position: -300px 0px;
   height:100px;
   width:100px;
-  margin-left:110px;
+  margin:0 auto;
 }
 
 a:hover .fault_tolerance {
