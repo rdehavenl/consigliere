@@ -14,7 +14,7 @@ module.exports = React.createClass({
     var content = this.props.checks.map(function(check){
     hash = crypto.createHash('md5').update(check.name).digest('hex');
       return (
-          <Check key={hash} check={check} />
+          <Check key={hash} hash={hash} check={check} />
         )
     });
     return (

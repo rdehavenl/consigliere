@@ -107,3 +107,19 @@ a:hover .security {
 a:hover .fault_tolerance {
   background-position: -300px 100px;
 }
+
+.okStatus {
+  color:green;
+}
+
+.warningStatus {
+  color: yellow;
+}
+
+.errorStatus {
+  color: red;
+}
+
+.notavailableStatus {
+  color: darkgray;
+}
