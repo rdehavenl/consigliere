@@ -9,7 +9,7 @@ var statFetcher = require('./lib/statfetcher');
 var auth = require('./lib/auth');
 
 mAccounts.init();
-scheduler.loadFromDatabase();
+// scheduler.loadFromDatabase();
 
 var server = new Hapi.Server();
 
@@ -218,6 +218,30 @@ server.register(require('vision'), function (err) {
             });
           }
         });
+        server.route({
+          method: 'GET',
+          path: '/api/category/{category}',
+          handler : function(request,reply){
+            statFetcher.getSummaryForCategoryForAll(request.params.category,function(err,res){
+              if(!err){
+                reply(res).code(200);
+              }
+              else {
+                reply(err).code(500);
+              }
+            });
+            // mAccounts.find({}, function(err,accounts){
+            //   if(!err){
+            //     accounts.forEach(function(account){
+            //
+            //     });
+            //   }
+            //   else {
+            //     reply("Unable to get list of accounts").code(500);
+            //   }
+            // });
+          }
+        })
 
         server.route({
             method: 'GET',

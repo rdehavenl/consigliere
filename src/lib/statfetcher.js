@@ -158,7 +158,7 @@ StatFetcher.getSummaryForCategoryForAll = function(category,callback){
                 }
                 else {
                   // name doesn't exist yet, create it with a single element check array
-                  consolidatedChecks.push({name:check.check.name, checks:[mergedCheckSummary]});
+                  consolidatedChecks.push({description:check.check.description, name:check.check.name, checks:[mergedCheckSummary]});
                 }
               });
               callback(null,consolidatedChecks);
