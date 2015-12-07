@@ -145,7 +145,7 @@ StatFetcher.getSummaryForCategoryForAll = function(category,callback){
                 });
                 var foundDetail;
                 detailedChecks.forEach(function(detailedCheck){
-                  if(detailedCheck.accountNumber == check.accountNumber && detailedCheck.result.checkId){
+                  if(detailedCheck.accountNumber == check.accountNumber && check.check.id == detailedCheck.result.checkId){
                     foundDetail = detailedCheck.result;
                   }
                 })
