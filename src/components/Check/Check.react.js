@@ -1,8 +1,17 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
+var crypto = require('crypto');
+var AccountGroup = require('./AccountGroup.react');
 
 module.exports = React.createClass({
   render: function(){
+    var hash;
+    var accountGroupContent = this.props.check.checks.map(function(check){
+    hash = crypto.createHash('md5').update(check.name+check.accountNumber).digest('hex');
+    return (
+        <AccountGroup key={hash} hash={hash} check={check} />
+      )
+    });
     var accordionId = 'accordion' + this.props.hash;
     var collapseId = 'collapse' + this.props.hash;
     var hashAccordionId = '#' + accordionId;
@@ -39,16 +48,16 @@ module.exports = React.createClass({
     var statusSpan;
     switch(status){
       case 'ok':
-        statusSpan = <span className="okStatus pull-right text-right glyphicon glyphicon-ok-sign"></span>
+        statusSpan = <span className="pull-right text-right label label-success">Ok</span>
       break;
       case 'warning':
-        statusSpan = <span className="warningStatus pull-right text-right glyphicon glyphicon-warning-sign"></span>
+        statusSpan = <span className="pull-right text-right label label-warning">Warning</span>
       break;
       case 'error':
-        statusSpan = <span className="errorStatus pull-right text-right glyphicon glyphicon-remove-sign"></span>
+        statusSpan = <span className="pull-right text-right label label-danger">Error</span>
       break;
       case 'not_available':
-        statusSpan = <span className="notavailableStatus pull-right text-right glyphicon glyphicon-question-sign"></span>
+        statusSpan = <span className="pull-right text-right label label-default">Not Available</span>
       break;
     }
     return (
@@ -65,6 +74,9 @@ module.exports = React.createClass({
             <div id={collapseId} className="panel-collapse collapse">
               <div className="panel-body">
                 <span dangerouslySetInnerHTML={{__html: this.props.check.description}} />
+                <br />
+                <br />
+                {accountGroupContent}
               </div>
             </div>
           </div>
