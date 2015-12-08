@@ -24,7 +24,6 @@ StatFetcher.fetchStatsFor = function(account){
         console.log(err);
       }
       else {
-        console.log('%j',data);
         client.set(account.accountNumber+'_checks', JSON.stringify(data));
         var checkIds = [];
         data.checks.forEach(function(check){
