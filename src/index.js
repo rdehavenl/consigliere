@@ -9,7 +9,7 @@ var statFetcher = require('./lib/statfetcher');
 var auth = require('./lib/auth');
 
 mAccounts.init();
-// scheduler.loadFromDatabase();
+scheduler.loadFromDatabase();
 
 var server = new Hapi.Server();
 
