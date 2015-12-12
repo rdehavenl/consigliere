@@ -8,6 +8,7 @@ var reactify = require('reactify');
 var streamify = require('gulp-streamify');
 var browserify = require('browserify');
 var watchify = require('watchify');
+var mocha = require('gulp-mocha');
 
 var path = {
   ALL: ['src/**/*.js', 'src/views/**/*.html'],
