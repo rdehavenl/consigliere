@@ -3,8 +3,57 @@ var ReactDOM = require('react-dom');
 var config = require('../config/config');
 
 module.exports = React.createClass({
+  getResourceTable: function() {
+    var columnIndicesToDisplay = null;
+    var tableHeaders = [];
+    var tableBody = [];
+    config.TrustedAdvisor.Checks.forEach(function(check){
+      if(check.Name == this.props.check.name){
+        columnIndicesToDisplay = check.DefaultDisplayColumns;
+      }
+    }.bind(this));
+    if(columnIndicesToDisplay != null){
+      this.props.check.metadata.forEach(function(metadata,index){
+        if(columnIndicesToDisplay.indexOf(index) >= 0)
+          tableHeaders.push(<th>{metadata}</th>);
+      });
+      var currentColumn;
+      var status;
+      this.props.check.flaggedResources.forEach(function(resource){
+        currentColumn = [];
+        resource.metadata.forEach(function(metadata,index){
+          if(columnIndicesToDisplay.indexOf(index) >= 0)
+            currentColumn.push(<td>{metadata}</td>)
+        });
+        switch(resource.status){
+          case 'warning':
+            tableBody.push(<tr className='warning'>{currentColumn}</tr>);
+          break;
+          case 'error':
+            tableBody.push(<tr className='danger'>{currentColumn}</tr>);
+          break;
+          case 'ok':
+          case 'not_available':
+            tableBody.push(<tr>{currentColumn}</tr>);
+          break;
+        }
+
+      })
+    }
+    return (
+      <table className='table table-striped table-bordered table-condensed'>
+        <thead>
+          <tr>
+            {tableHeaders}
+          </tr>
+        </thead>
+        <tbody>
+          {tableBody}
+        </tbody>
+      </table>
+    )
+  },
   getDefaultText: function(){
-    console.log(this.props.check.name);
     var defText = null;
     var supText = null;
     config.TrustedAdvisor.Checks.forEach(function(check){
@@ -69,6 +118,9 @@ module.exports = React.createClass({
           <div id={collapseId} className="panel-collapse collapse">
             <div className="panel-body">
                 {defaultText}
+                <br />
+                <br />
+                {this.getResourceTable()}
             </div>
           </div>
         </div>
