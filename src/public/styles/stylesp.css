@@ -123,3 +123,7 @@ a:hover .fault_tolerance {
 .notavailableStatus {
   color: darkgray;
 }
+
+.resourceTable {
+  font-size: 11px;
+}

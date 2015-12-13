@@ -20,38 +20,49 @@ module.exports = React.createClass({
       var currentColumn;
       var status;
       this.props.check.flaggedResources.forEach(function(resource){
-        currentColumn = [];
-        resource.metadata.forEach(function(metadata,index){
-          if(columnIndicesToDisplay.indexOf(index) >= 0)
-            currentColumn.push(<td>{metadata}</td>)
-        });
-        switch(resource.status){
-          case 'warning':
-            tableBody.push(<tr className='warning'>{currentColumn}</tr>);
-          break;
-          case 'error':
-            tableBody.push(<tr className='danger'>{currentColumn}</tr>);
-          break;
-          case 'ok':
-          case 'not_available':
-            tableBody.push(<tr>{currentColumn}</tr>);
-          break;
+        if(resource.isSuppressed == false){
+          currentColumn = [];
+          resource.metadata.forEach(function(metadata,index){
+            if(columnIndicesToDisplay.indexOf(index) >= 0)
+              currentColumn.push(<td>{metadata}</td>)
+          });
+          switch(resource.status){
+            case 'warning':
+              tableBody.push(<tr className='warning'>{currentColumn}</tr>);
+            break;
+            case 'error':
+              tableBody.push(<tr className='danger'>{currentColumn}</tr>);
+            break;
+            case 'ok':
+            case 'not_available':
+              tableBody.push(<tr>{currentColumn}</tr>);
+            break;
+          }
         }
-
       })
     }
-    return (
-      <table className='table table-striped table-bordered table-condensed'>
-        <thead>
-          <tr>
-            {tableHeaders}
-          </tr>
-        </thead>
-        <tbody>
-          {tableBody}
-        </tbody>
-      </table>
-    )
+    if(tableHeaders.length > 0 && tableBody.length > 0){
+      return (
+        <div>
+          <br />
+          <br />
+          <table className='table table-striped table-bordered table-condensed resourceTable'>
+            <thead>
+              <tr>
+                {tableHeaders}
+              </tr>
+            </thead>
+            <tbody>
+              {tableBody}
+            </tbody>
+          </table>
+        </div>
+      )
+    }
+    else {
+      return (<div></div>)
+    }
+
   },
   getDefaultText: function(){
     var defText = null;
@@ -118,8 +129,6 @@ module.exports = React.createClass({
           <div id={collapseId} className="panel-collapse collapse">
             <div className="panel-body">
                 {defaultText}
-                <br />
-                <br />
                 {this.getResourceTable()}
             </div>
           </div>
