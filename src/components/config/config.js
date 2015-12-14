@@ -362,6 +362,142 @@ module.exports = {
             "Reason"
           ]
         }
+      },
+      {
+        "Name" : "High Utilization Amazon EC2 Instances",
+        "DefaultText": "%X of %Y Amazon EC2 instances have high average daily utilization.",
+        "SuppressionText" : "%X items have been excluded",
+        "DefaultDisplayColumns" : [
+          0,
+          1,
+          2,
+          3,
+          18,
+          19
+        ]
+      },
+      {
+        "Name" : "Service Limits",
+        "DefaultText": "%X of %Y items have usage that is more than 80% of the service limit.",
+        "SuppressionText" : "%X items have been excluded",
+        "DefaultDisplayColumns" : [
+          0,
+          1,
+          2,
+          3,
+          4
+        ]
+      },
+      {
+        "Name" : "Amazon EBS Provisioned IOPS (SSD) Volume Attachment Configuration",
+        "DefaultText": "%X of %Y EBS Provisioned IOPS volumes are attached to an EC2 instance that is not EBS-optimized.",
+        "SuppressionText" : "%X items have been excluded",
+        "DefaultDisplayColumns" : [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ]
+      },
+      {
+        "Name" : "Large Number of Rules in an EC2 Security Group",
+        "DefaultText": "%X of %Y security groups have a large number of rules.",
+        "SuppressionText" : "%X items have been excluded",
+        "DefaultDisplayColumns" : [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ]
+      },
+      {
+        "Name" : "Large Number of EC2 Security Group Rules Applied to an Instance",
+        "DefaultText": "%X of %Y EC2 instances have a large number of security group rules.",
+        "SuppressionText" : "%X items have been excluded",
+        "DefaultDisplayColumns" : [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "Name" : "Amazon Route 53 Alias Resource Record Sets",
+        "DefaultText": "%X of %Y resource record sets can be changed to alias resource record sets.",
+        "SuppressionText" : "%X items have been excluded",
+        "DefaultDisplayColumns" : [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "Name" : "Overutilized Amazon EBS Magnetic Volumes",
+        "DefaultText": "%X of %Y standard Amazon EBS volumes are potentially overutilized and might benefit from a more efficient configuration.",
+        "SuppressionText" : "%X items have been excluded",
+        "DefaultDisplayColumns" : [
+          0,
+          1,
+          2,
+          17,
+          18
+        ]
+      },
+      {
+        "Name" : "CloudFront Content Delivery Optimization",
+        "DefaultText": "%X of %Y Amazon S3 buckets might benefit from the use of Amazon CloudFront.",
+        "SuppressionText" : "%X items have been excluded",
+        "DefaultDisplayColumns" : [
+          0,
+          1,
+          2,
+          3,
+          4
+        ]
+      },
+      {
+        "Name" : "CloudFront Header Forwarding and Cache Hit Ratio",
+        "DefaultText": "%X of %Y cache behaviors are forwarding headers, such as Date or User-Agent, that significantly reduce the cache hit ratio.",
+        "SuppressionText" : "%X items have been excluded",
+        "DefaultDisplayColumns" : [
+          0,
+          1,
+          2,
+          3
+        ]
+      },
+      {
+        "Name" : "Amazon EC2 to EBS Throughput Optimization",
+        "DefaultText": "%X of %Y EBS-optimized EC2 instances had EBS volume usage that exceeded 95% of the instance maximum throughput for more than half of the preceding day.",
+        "SuppressionText" : "%X items have been excluded",
+        "DefaultDisplayColumns" : [
+          0,
+          1,
+          2,
+          4
+        ]
+      },
+      {
+        "Name" : "CloudFront Alternate Domain Names",
+        "DefaultText": "%X of %Y distributions with alternate domain names might not be configured to route DNS queries to the CloudFront distribution.",
+        "SuppressionText" : "%X items have been excluded",
+        "DefaultDisplayColumns" : [
+          0,
+          1,
+          2
+        ]
       }
     ]
   }
