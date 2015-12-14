@@ -41,7 +41,21 @@ module.exports = {
       {
         "Name": "ELB Security Groups",
         "DefaultText": "%X of %Y load balancers are associated with security groups that are either missing or incorrectly configured.",
-        "SuppressionText": "%X items have been excluded"
+        "SuppressionText": "%X items have been excluded",
+        "DefaultDisplayColumns": [
+          0,
+          1,
+          3,
+          4
+        ],
+        "OverrideTableHeaders" : {
+          "HeaderColumns" : [
+            "Region",
+            "Load Balancer Name",
+            "Security Group IDs",
+            "Reason"
+          ]
+        }
       },
       {
         "Name": "Amazon RDS Security Group Access Risk",
@@ -87,6 +101,11 @@ module.exports = {
         "Name": "CloudFront SSL Certificate on the Origin Server",
         "DefaultText": "%X of %Y certificates on your origin are expired, will soon expire, use outdated encryption, or could not be examined.",
         "SuppressionText": "%X items have been excluded"
+      },
+      {
+        "Name" : "IAM Access Key Rotation",
+        "DefaultText" : "%X of %Y active access keys have not been rotated in the last 90 days.",
+        "SuppressionText" : "%X items have been excluded"
       }
     ]
   }

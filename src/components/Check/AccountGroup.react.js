@@ -5,22 +5,39 @@ var config = require('../config/config');
 module.exports = React.createClass({
   getResourceTable: function() {
     var columnIndicesToDisplay = null;
+    var overrideHeaders = [];
     var tableHeaders = [];
     var tableBody = [];
     config.TrustedAdvisor.Checks.forEach(function(check){
       if(check.Name == this.props.check.name){
-        columnIndicesToDisplay = check.DefaultDisplayColumns;
+        if(typeof check.OverrideTableHeaders != 'undefined'){
+          overrideHeaders = check.OverrideTableHeaders.HeaderColumns;
+          columnIndicesToDisplay = check.DefaultDisplayColumns;
+        }
+        else {
+          columnIndicesToDisplay = check.DefaultDisplayColumns;
+        }
       }
     }.bind(this));
-    if(columnIndicesToDisplay != null){
+    if(overrideHeaders.length == 0 && columnIndicesToDisplay != null){
+      // construct table headers using DefaultDisplayColumns if no OverrideTableHeaders
       this.props.check.metadata.forEach(function(metadata,index){
         if(columnIndicesToDisplay.indexOf(index) >= 0)
           tableHeaders.push(<th>{metadata}</th>);
       });
-      var currentColumn;
-      var status;
+    }
+    else {
+      // use OverrideTableHeaders
+      overrideHeaders.forEach(function(header){
+        tableHeaders.push(<th>{header}</th>);
+      });
+    }
+    var currentColumn;
+    var status;
+    if(columnIndicesToDisplay != null)
+    {
       this.props.check.flaggedResources.forEach(function(resource){
-        if(resource.isSuppressed == false){
+        if(resource.isSuppressed == false && (typeof resource.metadata != 'undefined')){
           currentColumn = [];
           resource.metadata.forEach(function(metadata,index){
             if(columnIndicesToDisplay.indexOf(index) >= 0)
@@ -39,7 +56,7 @@ module.exports = React.createClass({
             break;
           }
         }
-      })
+      });
     }
     if(tableHeaders.length > 0 && tableBody.length > 0){
       return (
