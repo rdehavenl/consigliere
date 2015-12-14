@@ -34,9 +34,16 @@ module.exports = {
           0,
           1,
           2,
-          3,
           4
-        ]
+        ],
+        "OverrideTableHeaders" : {
+          "HeaderColumns" : [
+            "Region",
+            "Load Balancer Name",
+            "Load Balancer Port",
+            "Reason"
+          ]
+        }
       },
       {
         "Name": "ELB Security Groups",
@@ -60,32 +67,70 @@ module.exports = {
       {
         "Name": "Amazon RDS Security Group Access Risk",
         "DefaultText": "%X of %Y Amazon RDS security group rules create potential security vulnerabilities by granting global access.",
-        "SuppressionText": "%X items have been excluded"
+        "SuppressionText": "%X items have been excluded",
+        "DefaultDisplayColumns" : [
+          0,
+          1,
+          2,
+          3,
+          4
+        ]
       },
       {
         "Name": "Amazon Route 53 MX Resource Record Sets and Sender Policy Framework",
         "DefaultText": "%X of %Y MX resource record sets do not have a corresponding SPF resource record set.",
-        "SuppressionText": "%X items have been excluded"
+        "SuppressionText": "%X items have been excluded",
+        "DefaultDisplayColumns" : [
+          0,
+          1,
+          2
+        ]
       },
       {
         "Name": "Amazon S3 Bucket Permissions",
         "DefaultText": "%X of %Y buckets have permission properties that grant global access.",
-        "SuppressionText": "%X items have been excluded"
+        "SuppressionText": "%X items have been excluded",
+        "DefaultDisplayColumns":[
+          0,
+          1,
+          2,
+          3,
+          4
+        ]
       },
       {
         "Name": "AWS CloudTrail Logging",
         "DefaultText": "%X of %Y regions are not logging activity by using CloudTrail.",
-        "SuppressionText": "%X items have been excluded"
+        "SuppressionText": "%X items have been excluded",
+        "DefaultDisplayColumns" : [
+          0,
+          1,
+          2,
+          3
+        ]
       },
       {
         "Name": "CloudFront Custom SSL Certificates in the IAM Certificate Store",
         "DefaultText": "%X of %Y custom SSL certificates are expired, will soon expire, or are incorrectly configured.",
-        "SuppressionText": "%X items have been excluded"
+        "SuppressionText": "%X items have been excluded",
+        "DefaultDisplayColumns": [
+          0,
+          1,
+          2,
+          3
+        ]
       },
       {
         "Name": "IAM Password Policy",
         "DefaultText": "Password policy is enabled, and all content requirements are enabled",
-        "SuppressionText": "%X items have been excluded"
+        "SuppressionText": "%X items have been excluded",
+        "DefaultDisplayColumns" : [
+          0,
+          1,
+          2,
+          3,
+          4
+        ]
       },
       {
         "Name": "IAM Use",
@@ -100,12 +145,24 @@ module.exports = {
       {
         "Name": "CloudFront SSL Certificate on the Origin Server",
         "DefaultText": "%X of %Y certificates on your origin are expired, will soon expire, use outdated encryption, or could not be examined.",
-        "SuppressionText": "%X items have been excluded"
+        "SuppressionText": "%X items have been excluded",
+        "DefaultDisplayColumns" : [
+          0,
+          1,
+          2,
+          3
+        ]
       },
       {
         "Name" : "IAM Access Key Rotation",
         "DefaultText" : "%X of %Y active access keys have not been rotated in the last 90 days.",
-        "SuppressionText" : "%X items have been excluded"
+        "SuppressionText" : "%X items have been excluded",
+        "DefaultDisplayColumns" : [
+          1,
+          2,
+          3,
+          4
+        ]
       }
     ]
   }
