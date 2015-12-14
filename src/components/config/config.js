@@ -163,6 +163,205 @@ module.exports = {
           3,
           4
         ]
+      },
+      {
+        "Name" : "Amazon EBS Snapshots",
+        "DefaultText": "%X of %Y volumes do not have a recent snapshot.",
+        "SuppressionText" : "%X items have been excluded",
+        "DefaultDisplayColumns" : [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          8
+        ]
+      },
+      {
+        "Name" : "Amazon EC2 Availability Zone Balance",
+        "DefaultText": "%X regions have an imbalanced instance distribution across Availability Zones.",
+        "SuppressionText" : "%X items have been excluded",
+        "DefaultDisplayColumns" : [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          7
+        ]
+      },
+      {
+        "Name" : "Load Balancer Optimization ",
+        "DefaultText": "%X of %Y load balancers are configured in a suboptimal way.",
+        "SuppressionText" : "%X items have been excluded",
+        "DefaultDisplayColumns" : [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          9
+        ]
+      },
+      {
+        "Name" : "VPN Tunnel Redundancy",
+        "DefaultText": "%X of %Y VPNs have less than 2 active tunnels.",
+        "SuppressionText" : "%X items have been excluded",
+        "DefaultDisplayColumns" : [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          7
+        ]
+      },
+      {
+        "Name" : "Auto Scaling Group Resources",
+        "DefaultText": "%X of %Y Auto Scaling groups are configured with unavailable resources.",
+        "SuppressionText" : "%X items have been excluded",
+        "DefaultDisplayColumns" : [
+          0,
+          1,
+          2,
+          3,
+          4
+        ]
+      },
+      {
+        "Name" : "Amazon RDS Backups",
+        "DefaultText": "%X of %Y DB instances do not have automated backups enabled.",
+        "SuppressionText" : "%X items have been excluded",
+        "DefaultDisplayColumns" : [
+          0,
+          1,
+          2,
+          3
+        ]
+      },
+      {
+        "Name" : "Amazon RDS Multi-AZ",
+        "DefaultText": "%X of %Y DB instances are not Multi-AZ enabled.",
+        "SuppressionText" : "%X items have been excluded",
+        "DefaultDisplayColumns" : [
+          0,
+          1,
+          2,
+          3
+        ]
+      },
+      {
+        "Name" : "Auto Scaling Group Health Check",
+        "DefaultText": "%X of %Y Auto Scaling groups have a suboptimal health check configuration.",
+        "SuppressionText" : "%X items have been excluded",
+        "DefaultDisplayColumns" : [
+          0,
+          1,
+          2,
+          3
+        ]
+      },
+      {
+        "Name" : "Amazon S3 Bucket Logging",
+        "DefaultText": "%X of %Y buckets do not have logging enabled or are not configured properly.",
+        "SuppressionText" : "%X items have been excluded",
+        "DefaultDisplayColumns" : [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          7
+        ]
+      },
+      {
+        "Name" : "Amazon Route 53 Name Server Delegations",
+        "DefaultText": "%X of %Y hosted zones do not have all four name server delegations configured.",
+        "SuppressionText" : "%X items have been excluded",
+        "DefaultDisplayColumns" : [
+          0,
+          1,
+          2
+        ]
+      },
+      {
+        "Name" : "Amazon Route 53 High TTL Resource Record Sets",
+        "DefaultText": "%X of %Y resource record sets have TTL values that are too large.",
+        "SuppressionText" : "%X items have been excluded",
+        "DefaultDisplayColumns" : [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "Name" : "Amazon Route 53 Failover Resource Record Sets",
+        "DefaultText": "%X of %Y failover resource record sets are not configured correctly.",
+        "SuppressionText" : "%X items have been excluded",
+        "DefaultDisplayColumns" : [
+          0,
+          1,
+          2,
+          3,
+          4
+        ]
+      },
+      {
+        "Name" : "Amazon Route 53 Deleted Health Checks",
+        "DefaultText": "%X of %Y resource record sets are associated with health checks that have been deleted.",
+        "SuppressionText" : "%X items have been excluded",
+        "DefaultDisplayColumns" : [
+          0,
+          1,
+          2,
+          3,
+          4
+        ]
+      },
+      {
+        "Name" : "ELB Cross-Zone Load Balancing",
+        "DefaultText": "%X of %Y load balancers do not have cross-zone load balancing enabled.",
+        "SuppressionText" : "%X items have been excluded",
+        "DefaultDisplayColumns" : [
+          0,
+          1,
+          3
+        ],
+        "OverrideTableHeaders" : {
+          "HeaderColumns" : [
+            "Region",
+            "Load Balancer Name",
+            "Reason"
+          ]
+        }
+      },
+      {
+        "Name" : "ELB Connection Draining",
+        "DefaultText": "%X of %Y load balancers do not have connection draining enabled.",
+        "SuppressionText" : "%X items have been excluded",
+        "DefaultDisplayColumns" : [
+          0,
+          1,
+          3
+        ],
+        "OverrideTableHeaders" : {
+          "HeaderColumns" : [
+            "Region",
+            "Load Balancer Name",
+            "Reason"
+          ]
+        }
       }
     ]
   }
