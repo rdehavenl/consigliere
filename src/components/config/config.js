@@ -486,8 +486,16 @@ module.exports = {
           0,
           1,
           2,
-          4
-        ]
+          3
+        ],
+        "OverrideTableHeaders" : {
+          "HeaderColumns" : [
+            "Region",
+            "Instance ID",
+            "Instance Type",
+            "Time Near Maximum"
+          ]
+        }
       },
       {
         "Name" : "CloudFront Alternate Domain Names",
