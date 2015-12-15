@@ -506,6 +506,103 @@ module.exports = {
           1,
           2
         ]
+      },
+      {
+        "Name" : "Low Utilization Amazon EC2 Instances",
+        "DefaultText": "%X of %Y Amazon EC2 instances have low average daily utilization.",
+        "CostOptimizingText": "Monthly savings of up to $%X might be available by minimizing underutilized instances.",
+        "SuppressionText" : "%X items have been excluded",
+        "DefaultDisplayColumns" : [
+          0,
+          1,
+          2,
+          3,
+          4,
+          19,
+          20,
+          21
+        ]
+      },
+      {
+        "Name" : "Idle Load Balancers",
+        "DefaultText": "%X of %Y load balancers appear to be idle.",
+        "CostOptimizingText": "Monthly savings of up to $%X are available by minimizing unused load balancers.",
+        "SuppressionText" : "%X items have been excluded",
+        "DefaultDisplayColumns" : [
+          0,
+          1,
+          2,
+          3
+        ]
+      },
+      {
+        "Name" : "Underutilized Amazon EBS Volumes",
+        "DefaultText": "%X of %Y EBS volumes appear to be underutilized.",
+        "CostOptimizingText": "Monthly savings of up to $%X are available by minimizing underused EBS volumes.",
+        "SuppressionText" : "%X items have been excluded",
+        "DefaultDisplayColumns" : [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ]
+      },
+      {
+        "Name" : "Unassociated Elastic IP Addresses",
+        "DefaultText": "%X of %Y Elastic IP addresses are not associated with a running instance.",
+        "SuppressionText" : "%X items have been excluded",
+        "DefaultDisplayColumns" : [
+          0,
+          1
+        ]
+      },
+      {
+        "Name" : "Amazon RDS Idle DB Instances",
+        "DefaultText": "%X of %Y DB instances appear to be Idle.",
+        "CostOptimizingText": "Monthly savings of up to $%X are available by minimizing idle DB Instances.",
+        "SuppressionText" : "%X items have been excluded",
+        "DefaultDisplayColumns" : [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ]
+      },
+      {
+        "Name" : "Amazon Route 53 Latency Resource Record Sets",
+        "DefaultText": "%X of %Y domain names have only one latency resource record set.",
+        "SuppressionText" : "%X items have been excluded",
+        "DefaultDisplayColumns" : [
+          0,
+          1,
+          2,
+          3
+        ]
+      },
+      {
+        "Name" : "Amazon EC2 Reserved Instances Optimization",
+        "CostOptimizingText": "Monthly savings of up to $%X (%Y%) might be available with optimal Reserved Instance use.",
+        "SuppressionText" : "%X items have been excluded",
+        "DefaultDisplayColumns" : [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ]
       }
     ]
   }

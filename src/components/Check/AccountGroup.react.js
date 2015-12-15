@@ -81,37 +81,55 @@ module.exports = React.createClass({
     }
 
   },
-  getDefaultText: function(){
+  getSummaryText: function(){
     var defText = null;
     var supText = null;
+    var costText = null;
+    var summaryText = "N/A";
     config.TrustedAdvisor.Checks.forEach(function(check){
       if(check.Name == this.props.check.name){
-        defText = check.DefaultText;
-        supText = check.SuppressionText;
+        if(typeof check.DefaultText != 'undefined')
+          defText = check.DefaultText;
+        if(typeof check.SuppressionText != 'undefined')
+          supText = check.SuppressionText;
+        if(typeof check.CostOptimizingText != 'undefined')
+          costText = check.CostOptimizingText;
       }
     }.bind(this));
 
-    if(defText != null){
+    if(defText != null || supText != null || costText != null){
+    // if any defined
       if(typeof this.props.check.resourcesSummary != 'undefined'){
-        defText = defText.replace("%X",this.props.check.resourcesSummary.resourcesFlagged);
-        defText = defText.replace("%Y",this.props.check.resourcesSummary.resourcesProcessed);
-        supText = supText.replace("%X",this.props.check.resourcesSummary.resourcesSuppressed);
-        if(this.props.check.resourcesSummary.resourcesSuppressed > 0)
-          return defText+' '+supText;
-        else
-          return defText;
+        if(defText != null){
+          defText = defText.replace("%X",this.props.check.resourcesSummary.resourcesFlagged);
+          defText = defText.replace("%Y",this.props.check.resourcesSummary.resourcesProcessed);
+        }
+        if(supText != null){
+          supText = supText.replace("%X",this.props.check.resourcesSummary.resourcesSuppressed);
+        }
       }
-      else {
-        return "N/A";
+      if(typeof this.props.check.categorySpecificSummary.costOptimizing != 'undefined'){
+          if(costText != null){
+            costText = costText.replace("%X",this.props.check.categorySpecificSummary.costOptimizing.estimatedMonthlySavings);
+            costText = costText.replace("%Y",this.props.check.categorySpecificSummary.costOptimizing.estimatedPercentMonthlySavings);
+          }
       }
-
+      summaryText = "";
+      if(defText != null){
+        summaryText += defText;
+      }
+      if(supText != null && typeof this.props.check.resourcesSummary != 'undefined' && this.props.check.resourcesSummary.resourcesSuppressed > 0)
+      {
+        summaryText +=  ' '+supText;
+      }
+      if(costText != null && typeof this.props.check.categorySpecificSummary.costOptimizing != 'undefined'){
+        summaryText += ' '+costText;
+      }
     }
-    else {
-      return "N/A";
-    }
+    return summaryText;
   },
   render: function(){
-    var defaultText = this.getDefaultText();
+    var defaultText = this.getSummaryText();
     var statusSpan;
     switch(this.props.check.status){
       case 'ok':
