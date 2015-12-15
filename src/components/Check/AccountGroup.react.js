@@ -110,8 +110,10 @@ module.exports = React.createClass({
       }
       if(typeof this.props.check.categorySpecificSummary.costOptimizing != 'undefined'){
           if(costText != null){
-            costText = costText.replace("%X",this.props.check.categorySpecificSummary.costOptimizing.estimatedMonthlySavings);
-            costText = costText.replace("%Y",this.props.check.categorySpecificSummary.costOptimizing.estimatedPercentMonthlySavings);
+            var monthlySaving = parseFloat(this.props.check.categorySpecificSummary.costOptimizing.estimatedMonthlySavings).toFixed(2).toString();
+            var percentSaving = parseFloat(this.props.check.categorySpecificSummary.costOptimizing.estimatedPercentMonthlySavings*100).toFixed(2).toString();
+            costText = costText.replace("%X",monthlySaving);
+            costText = costText.replace("%Y",percentSaving);
           }
       }
       summaryText = "";
