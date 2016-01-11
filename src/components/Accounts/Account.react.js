@@ -42,6 +42,39 @@ module.exports = React.createClass({
               return <div><small>Access Key</small>&nbsp;<strong>{this.props.account.accessKey}</strong></div>
             }
           }.call(this)}
+          {
+            function() {
+              if(typeof this.props.account.lastRefreshed != 'undefined'){
+                var time2Str = new Date(this.props.account.lastRefreshed);
+                time2Str = time2Str.toTimeString();
+                switch(this.props.account.lastRefreshStatus){
+                  case 'success':
+
+                  return (
+                      <div>
+                        <small>
+                          Last Check &nbsp;
+                        <strong><span className='okStatus glyphicon glyphicon-ok-sign'></span> {time2Str}</strong>
+                        </small>
+                      </div>
+
+                  )
+                  break;
+                  case 'failed':
+                  return (
+                      <div>
+                        <small>
+                          Last Check &nbsp;
+                        <strong><span className='errorStatus glyphicon glyphicon-remove-sign'></span> {time2Str}</strong>
+                        </small>
+                      </div>
+
+                  )
+                  break;
+                }
+              }
+            }.call(this)
+          }
           </div>
         </div>
       </div>
