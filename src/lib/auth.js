@@ -36,10 +36,11 @@ Auth.getSupport = function(account,callback){
                   var sts = new AWS.STS();
                   var params = {
                     RoleArn: account.roleArn,
-                    RoleSessionName: account.accountName+'consigliere'
+                    RoleSessionName: 'consigliere'
                   }
                   sts.assumeRole(params,function(err,data){
                     if(err){
+                      console.log(err);
                       callback(err);
                     }
                     else {
@@ -54,10 +55,11 @@ Auth.getSupport = function(account,callback){
                   var sts = new AWS.STS();
                   var params = {
                     RoleArn: account.roleArn,
-                    RoleSessionName: account.accountName+'consigliere'
+                    RoleSessionName: 'consigliere'
                   }
                   sts.assumeRole(params,function(err,data){
                     if(err){
+                      console.log(err);
                       callback(err);
                     }
                     else {
