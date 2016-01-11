@@ -1,6 +1,6 @@
 ![consigliere](consigliere_400x147.png)
 
-[![travis-ci](https://travis-ci.org/ivarrian/consigliere.svg?branch=master)](https://travis-ci.org/ivarrian/consigliere) ![david-dm](https://david-dm.org/ivarrian/consigliere.svg)  ![codeship.io](https://codeship.com/projects/00a3d3f0-65ee-0133-0e06-123c33218719/status?branch=master)
+[![travis-ci](https://travis-ci.org/newscorpaus/consigliere.svg?branch=master)](https://travis-ci.org/newscorpaus/consigliere) ![david-dm](https://david-dm.org/ivarrian/consigliere.svg)  ![codeship.io](https://codeship.com/projects/00a3d3f0-65ee-0133-0e06-123c33218719/status?branch=master)
 
 What is it?
 ============
