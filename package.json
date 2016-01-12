@@ -10,14 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ivarrian/consigliere.git"
+    "url": "git+https://github.com/newscorpaus/consigliere.git"
   },
   "author": "Ravi Nair",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/ivarrian/consigliere/issues"
+    "url": "https://github.com/newscorpaus/consigliere/issues"
   },
-  "homepage": "https://github.com/ivarrian/consigliere#readme",
+  "homepage": "https://github.com/newscorpaus/consigliere/wiki",
   "dependencies": {
     "async": "^1.5.0",
     "aws-sdk": "^2.2.19",
