@@ -1,56 +1,69 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+var dynamoose = require('dynamoose');
+var config = require('config');
+var Schema = dynamoose.Schema;
 
-mongoose.connect(process.env.MONGOLAB_URI || process.env.MONGO_URL || 'mongodb://localhost/consigliere');
-
+dynamoose.AWS.config.update({region: config.Defaults.AWS.Dynamo.Region});
 
 var accountSchema = new Schema({
-  accountName: { type: String, required: true, unique: true },
-  type: { type: String, required: true},
-  choice: { type: String, required: true},
-  roleArn: String,
-  accessKey: String,
-  accessSecret: String,
-  accountNumber: { type: String, required: true, unique: true },
-  created_at: Date,
-  updated_at: Date,
-  refreshStatus: String,
-  lastRefreshed : Date,
-  lastRefreshStatus: String,
-  lastRefreshReason: String
-});
-
-accountSchema.pre('save',function(next){
-  var currentDate = new Date();
-  this.updated_at = currentDate;
-  if(!this.created_at)
-    this.created_at = currentDate;
-  next();
-});
-
-accountSchema.methods.close = function(callback){
-  mongoose.connection.close(function(err){
-    if(err){
-      callback(err);
+  accountName: {
+    type: String,
+    required: true
+  },
+  type: {
+    type: String,
+    required: true,
+    validate : function(value){
+      if(value == 'master' || value == 'slave')
+        return true;
+      else
+        return false;
     }
-    else {
-      callback(null);
+  },
+  choice: {
+    type: String
+  },
+  roleArn: {
+    type: String
+  },
+  accessKey: {
+    type: String
+  },
+  accessSecret: {
+    type: String
+  },
+  accountNumber: {
+    type: String,
+    required: true
+  },
+  created_at: {
+    type: Date,
+    default : function(){
+      var currentDate = new Date();
+      return currentDate;
     }
-  })
-}
-
-var Account = mongoose.model('Account', accountSchema);
-
-process.on('SIGINT', function() {
-  mongoose.connection.close(function () {
-    process.exit(0);
-  });
+  },
+  updated_at: {
+    type: Date,
+    default: function(){
+      var currentDate = new Date();
+      return currentDate;
+    }
+  },
+  refreshStatus: {
+    type: String
+  },
+  lastRefreshed : {
+    type: Date
+  },
+  lastRefreshStatus: {
+    type: String
+  },
+  lastRefreshReason: {
+    type: String
+  }
 });
 
-process.on('SIGTERM', function() {
-  mongoose.connection.close(function () {
-    process.exit(0);
-  });
-});
+
+var Account = dynamoose.model('consigliere', accountSchema);
 
 module.exports = Account;

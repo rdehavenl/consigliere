@@ -17,7 +17,7 @@ Scheduler.scheduleSingle = function(account){
 }
 
 Scheduler.loadFromDatabase = function(){
-  mAccounts.find({}, function(err,accounts){
+  mAccounts.scan({},function(err,accounts){
     if(!err){
       accounts.forEach(function(account){
         Scheduler.scheduleSingle(account);
