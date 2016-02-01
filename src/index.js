@@ -8,7 +8,6 @@ var scheduler = require('./lib/scheduler');
 var statFetcher = require('./lib/statfetcher');
 var auth = require('./lib/auth');
 
-mAccounts.init();
 scheduler.loadFromDatabase();
 
 var server = new Hapi.Server();
@@ -44,7 +43,7 @@ server.register(require('vision'), function (err) {
             method: 'GET',
             path: '/',
             handler: function (request, reply) {
-              mAccounts.find({},function(err,accounts){
+              mAccounts.scan({},function(err,accounts){
                 if(!err){
                   reply.view('index',{accounts: accounts});
                 }
@@ -58,7 +57,7 @@ server.register(require('vision'), function (err) {
           method: 'GET',
           path: '/api/accounts',
           handler: function(request, reply) {
-              mAccounts.find({},function(err,accounts){
+              mAccounts.scan({},function(err,accounts){
                 if(!err){
                   reply(accounts);
                 }
@@ -118,7 +117,7 @@ server.register(require('vision'), function (err) {
           method: 'PUT',
           path: '/api/accounts',
           handler: function(request,reply) {
-            mAccounts.findOne({accountNumber:request.payload.accountNumber},function(err,account){
+            mAccounts.query('accountNumber').eq(request.payload.accountNumber).exec(function(err,account){
               if(err){
                 console.log(err)
                 reply("Failed").code(400);
@@ -166,7 +165,7 @@ server.register(require('vision'), function (err) {
           method: 'DELETE',
           path: '/api/accounts',
           handler: function(request,reply) {
-            mAccounts.findOne({accountNumber:request.payload.accountNumber},function(err,account){
+            mAccounts.query('accountNumber').eq(request.payload.accountNumber).exec(function(err,account){
               if(err){
                 console.log(err);
                 reply("Failed").code(400);

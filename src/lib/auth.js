@@ -26,49 +26,53 @@ Auth.getSupport = function(account,callback){
     case 'slave':
       switch(account.choice){
         case 'role':
-          mAccounts.findOne({type:'master'},function(err,masterAccount){
+          mAccounts.scan('type').eq('master').exec(function(err,masterAccounts){
             if(err){
               callback(err);
             }
             else {
-              switch(masterAccount.choice){
-                case 'role':
-                  var sts = new AWS.STS();
-                  var params = {
-                    RoleArn: account.roleArn,
-                    RoleSessionName: 'consigliere'
-                  }
-                  sts.assumeRole(params,function(err,data){
-                    if(err){
-                      console.log(err);
-                      callback(err);
+              if(masterAccounts.length > 0)
+              {
+                var masterAccount = masterAccounts[0];
+                switch(masterAccount.choice){
+                  case 'role':
+                    var sts = new AWS.STS();
+                    var params = {
+                      RoleArn: account.roleArn,
+                      RoleSessionName: 'consigliere'
                     }
-                    else {
-                      AWS.config.update({accessKeyId:data.Credentials.AccessKeyId,secretAccessKey:data.Credentials.SecretAccessKey,sessionToken:data.Credentials.SessionToken});
-                      var support = new AWS.Support({region:config.Defaults.AWS.Support.Region});
-                      callback(null,support);
+                    sts.assumeRole(params,function(err,data){
+                      if(err){
+                        console.log(err);
+                        callback(err);
+                      }
+                      else {
+                        AWS.config.update({accessKeyId:data.Credentials.AccessKeyId,secretAccessKey:data.Credentials.SecretAccessKey,sessionToken:data.Credentials.SessionToken});
+                        var support = new AWS.Support({region:config.Defaults.AWS.Support.Region});
+                        callback(null,support);
+                      }
+                    });
+                  break;
+                  case 'keys':
+                    AWS.config.update({accessKeyId:account.accessKey,secretAccessKey:account.accessSecret});
+                    var sts = new AWS.STS();
+                    var params = {
+                      RoleArn: account.roleArn,
+                      RoleSessionName: 'consigliere'
                     }
-                  });
-                break;
-                case 'keys':
-                  AWS.config.update({accessKeyId:account.accessKey,secretAccessKey:account.accessSecret});
-                  var sts = new AWS.STS();
-                  var params = {
-                    RoleArn: account.roleArn,
-                    RoleSessionName: 'consigliere'
-                  }
-                  sts.assumeRole(params,function(err,data){
-                    if(err){
-                      console.log(err);
-                      callback(err);
-                    }
-                    else {
-                      AWS.config.update({accessKeyId:data.Credentials.AccessKeyId,secretAccessKey:data.Credentials.SecretAccessKey,sessionToken:data.Credentials.SessionToken});
-                      var support = new AWS.Support({region:config.Defaults.AWS.Support.Region});
-                      callback(null,support);
-                    }
-                  });
-                break;
+                    sts.assumeRole(params,function(err,data){
+                      if(err){
+                        console.log(err);
+                        callback(err);
+                      }
+                      else {
+                        AWS.config.update({accessKeyId:data.Credentials.AccessKeyId,secretAccessKey:data.Credentials.SecretAccessKey,sessionToken:data.Credentials.SessionToken});
+                        var support = new AWS.Support({region:config.Defaults.AWS.Support.Region});
+                        callback(null,support);
+                      }
+                    });
+                  break;
+                }
               }
             }
           });

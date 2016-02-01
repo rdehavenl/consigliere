@@ -90,7 +90,7 @@ StatFetcher.getStatsForAccount = function(account,callback){
 }
 
 StatFetcher.getSummaryForCategoryForAll = function(category,callback){
-  mAccounts.find({},function(err,accounts){
+  mAccounts.scan({},function(err,accounts){
     if(!err){
       var calls = [];
       var checks = [];
@@ -255,7 +255,7 @@ StatFetcher.getStatusCountsForAccount = function(account,callback){
 }
 
 StatFetcher.getStatusCountsForAll = function(callback){
-  mAccounts.find({},function(err,accounts){
+  mAccounts.scan({},function(err,accounts){
     if(!err){
       var calls = [];
       var counts = [];
