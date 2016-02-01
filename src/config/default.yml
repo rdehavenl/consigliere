@@ -6,3 +6,5 @@ Defaults:
     Support:
       Region: us-east-1
       Language: en
+    Dynamo:
+      Region: ap-southeast-2
