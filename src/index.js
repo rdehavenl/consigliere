@@ -7,6 +7,13 @@ var mAccounts = require('./models/accounts');
 var scheduler = require('./lib/scheduler');
 var statFetcher = require('./lib/statfetcher');
 var auth = require('./lib/auth');
+var winston = require('winston');
+
+var logger = new (winston.Logger)({
+  transports: [
+      new (winston.transports.Console)({'timestamp':true})
+    ]
+});
 
 scheduler.loadFromDatabase();
 
@@ -45,7 +52,11 @@ server.register(require('vision'), function (err) {
             handler: function (request, reply) {
               mAccounts.scan({},function(err,accounts){
                 if(!err){
+                  logger.info("View/index : Rendering index");
                   reply.view('index',{accounts: accounts});
+                }
+                else {
+                  logger.error("Model/accounts : Accounts Scan operation failed "+err.toString());
                 }
               });
 
@@ -59,7 +70,11 @@ server.register(require('vision'), function (err) {
           handler: function(request, reply) {
               mAccounts.scan({},function(err,accounts){
                 if(!err){
+                  logger.info("Model/accounts : GET /api/accounts | List of accounts");
                   reply(accounts);
+                }
+                else {
+                  logger.error("Model/accounts : GET /api/accounts | Accounts Scan operation failed "+err.toString());
                 }
               });
           }
@@ -70,7 +85,6 @@ server.register(require('vision'), function (err) {
           path: '/api/accounts',
           handler: function(request,reply) {
             var account = new mAccounts();
-            console.log(request.payload);
             if(typeof request.payload.accountName != 'undefined')
               account.accountName = request.payload.accountName;
 
@@ -95,19 +109,12 @@ server.register(require('vision'), function (err) {
             account.save(function(err){
               if(!err){
                 // Kick off cron after adding account
+                logger.info("Model/accounts : POST /api/accounts | Account "+account.accountName+"("+account.accountNumber+")"+" save operation successful");
                 scheduler.scheduleSingle(account);
                 reply(account).code(201);
-
               }
               else {
-                switch(err.code){
-                  case 11000:
-                    reply('Duplicate record').code(400);
-                    break;
-                  default:
-                    reply('Unknown Error').code(500);
-                    break;
-                }
+                logger.error("Model/accounts : POST /api/accounts | Account "+account.accountName+"("+account.accountNumber+")"+" save operation failed | "+err.toString());
               }
             });
           }
@@ -119,7 +126,7 @@ server.register(require('vision'), function (err) {
           handler: function(request,reply) {
             mAccounts.query('accountNumber').eq(request.payload.accountNumber).exec(function(err,account){
               if(err){
-                console.log(err)
+                logger.error("Model/Accounts : PUT /api/accounts | Dynamo query failed | "+err.toString());
                 reply("Failed").code(400);
               }
               else {
@@ -143,17 +150,11 @@ server.register(require('vision'), function (err) {
 
                 account.update(function(err){
                   if(!err){
+                    logger.info("Model/accounts : PUT /api/accounts | Account "+account.accountName+"("+account.accountNumber+")"+" update operation successful");
                     reply(account).code(202);
                   }
                   else {
-                    switch(err.code){
-                      case 11000:
-                        reply('Duplicate record').code(400);
-                        break;
-                      default:
-                        reply('Unknown Error').code(500);
-                        break;
-                    }
+                    logger.error("Model/accounts : PUT /api/accounts | Account "+account.accountName+"("+account.accountNumber+")"+" save operation failed | "+err.toString());
                   }
                 });
               }
@@ -167,17 +168,17 @@ server.register(require('vision'), function (err) {
           handler: function(request,reply) {
             mAccounts.queryOne('accountNumber').eq(request.payload.accountNumber).exec(function(err,account){
               if(err){
-                console.log(err);
+                logger.error("Model/Accounts : DELETE /api/accounts | Dynamo query failed | "+err.toString());
                 reply("Failed").code(400);
               }
               else {
-                // var accountToDelete = new mAccounts();
                 account.delete(function(err){
                   if(err){
-                    console.log(err);
+                    logger.error("Model/accounts : DELETE /api/accounts | Account "+account.accountName+"("+account.accountNumber+")"+" delete operation failed | "+err.toString());
                     reply("Failed").code(500);
                   }
                   else {
+                    logger.info("Model/accounts : DELETE /api/accounts | Account "+account.accountName+"("+account.accountNumber+")"+" delete operation successful");
                     reply("Deleted").code(204);
                   }
                 });
@@ -191,9 +192,11 @@ server.register(require('vision'), function (err) {
           handler : function(request,reply){
             statFetcher.getStatusCountsForAll(function(err,res){
               if(!err){
+                logger.info("Lib/StatFetcher : GET /api/accounts/statuscounts | Retrieved counts stats");
                 reply(res).code(200);
               }
               else {
+                logger.error("Lib/StatFetcher : GET /api/accounts/statuscounts | Failed to Retrieve counts stats | "+err.toString());
                 reply(err).code(400);
               }
             });
@@ -209,9 +212,11 @@ server.register(require('vision'), function (err) {
               };
               support.describeTrustedAdvisorChecks(params, function(err, data) {
                 if (err){
+                  logger.error("Lib/Auth : POST /api/authtest | Failed to get trusted advisor checks | "+err.toString());
                   reply({"result":"failed"}).code(400);
                 }
                 else {
+                  logger.info("Lib/Auth : POST /api/authtest | Successfully got trusted advisor checks");
                   reply({"result":"success"}).code(200);
                 }
               });
@@ -224,9 +229,11 @@ server.register(require('vision'), function (err) {
           handler : function(request,reply){
             statFetcher.getSummaryForCategoryForAll(request.params.category,function(err,res){
               if(!err){
+                logger.info("Lib/StatFetcher : GET /api/category/"+request.params.category+" | Successfully got summary category for all accounts");
                 reply(res).code(200);
               }
               else {
+                logger.error("Lib/StatFetcher : GET /api/category/"+request.params.category+" | Failed to get summary category for all accounts | "+err.toString());
                 reply(err).code(500);
               }
             });
@@ -254,7 +261,7 @@ server.register(require('vision'), function (err) {
         });
 
         server.start(function () {
-            console.log('Server running at:', server.info.uri);
+          logger.info("Server running at "+server.info.uri);
         });
     });
 });

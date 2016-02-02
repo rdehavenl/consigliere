@@ -6,22 +6,32 @@ var redis = require("redis");
 var async = require('async');
 var _ = require('lodash');
 var mAccounts = require('../models/accounts');
+var winston = require('winston');
+
+var logger = new (winston.Logger)({
+  transports: [
+      new (winston.transports.Console)({'timestamp':true})
+    ]
+});
 
 
 client = redis.createClient(process.env.REDIS_URL || 'redis://127.0.0.1/6379');
 
 client.on("error", function (err) {
-    console.log("Error " + err);
+    logger.error("DataStore/Redis | Error on redis connection | "+err.toString());
 });
 
 StatFetcher.fetchStatsFor = function(account){
+  logger.info("Lib/StatFetcher | Starting to fetch TA stats for "+account.accountName+"("+account.accountNumber+")");
   auth.getSupport(account,function(err,support){
     if(!err){
+      logger.info("Successfully got support object for "+account.accountName+"("+account.accountNumber+")");
       var params = {
         language: config.Defaults.AWS.Support.Language
       };
       support.describeTrustedAdvisorChecks(params, function(err, data) {
         if (err) {
+          logger.error("Failed to get checks for "+account.accountName+"("+account.accountNumber+")")
           var currentDate = new Date();
           account.lastRefreshed = currentDate;
           account.lastRefreshStatus = "failed";
@@ -29,11 +39,13 @@ StatFetcher.fetchStatsFor = function(account){
         }
         else {
           //update last refreshed
+          logger.info("Successfully got checks for "+account.accountName+"("+account.accountNumber+")");
           var currentDate = new Date();
           account.lastRefreshed = currentDate;
           account.lastRefreshStatus = "success";
           account.save(function(err){
             if(!err){
+              logger.info("Successfully saved lastRefreshed stats for "+account.accountName+"("+account.accountNumber+")");
               client.set(account.accountNumber+'_checks', JSON.stringify(data));
               var checkIds = [];
               data.checks.forEach(function(check){
@@ -44,9 +56,10 @@ StatFetcher.fetchStatsFor = function(account){
                 };
                 support.describeTrustedAdvisorCheckResult(params, function(err, data) {
                   if (err) {
-                    console.log(err);
+                    logger.error("Failed to get check results ("+check.id+") for "+account.accountName+"("+account.accountNumber+")");
                   }
                   else {
+                    logger.info("Successfully retrieved check results ("+check.id+") for "+account.accountName+"("+account.accountNumber+")");
                     client.set(account.accountNumber+'_result_'+check.id,JSON.stringify(data));
                   }
                 });
@@ -56,12 +69,16 @@ StatFetcher.fetchStatsFor = function(account){
               };
               support.describeTrustedAdvisorCheckSummaries(params, function(err, data) {
                 if (err){
-                  console.log(err);
+                  logger.error("Failed to get check summaries for "+account.accountName+"("+account.accountNumber+")");
                 }
                 else {
+                  logger.info("Successfully retrieved check summaries for "+account.accountName+"("+account.accountNumber+")");
                   client.set(account.accountNumber+'_summaries', JSON.stringify(data));
                 }
               });
+            }
+            else {
+              logger.error("Failed to save lastRefreshed stats for "+account.accountName+"("+account.accountNumber+")")
             }
           });
 
@@ -70,6 +87,7 @@ StatFetcher.fetchStatsFor = function(account){
     }
     else {
       //failed to get auth object
+      logger.error("Failed to get support object for "+account.accountName+"("+account.accountNumber+")");
       var currentDate = new Date();
       account.lastRefreshed = currentDate;
       account.lastRefreshStatus = "failed";
@@ -84,6 +102,7 @@ StatFetcher.getStatsForAccount = function(account,callback){
       console.log(replies);
     }
     else {
+      logger.error("Lib/StatFetcher | Failed to get keys from Redis for "+account.accountName+"("+account.accountNumber+")");
       callback(err);
     }
   });
