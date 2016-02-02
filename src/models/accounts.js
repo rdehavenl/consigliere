@@ -7,7 +7,8 @@ dynamoose.AWS.config.update({region: config.Defaults.AWS.Dynamo.Region});
 var accountSchema = new Schema({
   accountName: {
     type: String,
-    required: true
+    required: true,
+    rangeKey: true
   },
   type: {
     type: String,
@@ -33,7 +34,8 @@ var accountSchema = new Schema({
   },
   accountNumber: {
     type: String,
-    required: true
+    required: true,
+    hashKey: true
   },
   created_at: {
     type: Date,

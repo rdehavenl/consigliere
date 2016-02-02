@@ -165,13 +165,14 @@ server.register(require('vision'), function (err) {
           method: 'DELETE',
           path: '/api/accounts',
           handler: function(request,reply) {
-            mAccounts.query('accountNumber').eq(request.payload.accountNumber).exec(function(err,account){
+            mAccounts.queryOne('accountNumber').eq(request.payload.accountNumber).exec(function(err,account){
               if(err){
                 console.log(err);
                 reply("Failed").code(400);
               }
               else {
-                account.remove(function(err){
+                // var accountToDelete = new mAccounts();
+                account.delete(function(err){
                   if(err){
                     console.log(err);
                     reply("Failed").code(500);
