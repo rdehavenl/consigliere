@@ -66,6 +66,6 @@ var accountSchema = new Schema({
 });
 
 
-var Account = dynamoose.model('consigliere', accountSchema);
+var Account = dynamoose.model(config.Defaults.AWS.Dynamo.Table, accountSchema);
 
 module.exports = Account;
