@@ -25,8 +25,7 @@ Auth.getSupport = function(account,callback){
           callback(null,support);
         break;
         case 'keys':
-          AWS.config.update({accessKeyId:account.accessKey,secretAccessKey:account.accessSecret});
-          var support = new AWS.Support({region:config.Defaults.AWS.Support.Region});
+          var support = new AWS.Support({accessKeyId:account.accessKey,secretAccessKey:account.accessSecret,region:config.Defaults.AWS.Support.Region});
           logger.info("Lib/Auth | Returning Support object for Master Account using configured Access Keys");
           callback(null,support);
         break;
@@ -57,16 +56,14 @@ Auth.getSupport = function(account,callback){
                         callback(err);
                       }
                       else {
-                        AWS.config.update({accessKeyId:data.Credentials.AccessKeyId,secretAccessKey:data.Credentials.SecretAccessKey,sessionToken:data.Credentials.SessionToken});
-                        var support = new AWS.Support({region:config.Defaults.AWS.Support.Region});
+                        var support = new AWS.Support({accessKeyId:data.Credentials.AccessKeyId,secretAccessKey:data.Credentials.SecretAccessKey,sessionToken:data.Credentials.SessionToken,region:config.Defaults.AWS.Support.Region});
                         logger.info("Lib/Auth | Returning Support object for Master:Role and Slave:Role");
                         callback(null,support);
                       }
                     });
                   break;
                   case 'keys':
-                    AWS.config.update({accessKeyId:masterAccount.accessKey,secretAccessKey:masterAccount.accessSecret});
-                    var sts = new AWS.STS();
+                    var sts = new AWS.STS({accessKeyId:masterAccount.accessKey,secretAccessKey:masterAccount.accessSecret});
                     var params = {
                       RoleArn: account.roleArn,
                       RoleSessionName: 'consigliere'
@@ -77,8 +74,7 @@ Auth.getSupport = function(account,callback){
                         callback(err);
                       }
                       else {
-                        AWS.config.update({accessKeyId:data.Credentials.AccessKeyId,secretAccessKey:data.Credentials.SecretAccessKey,sessionToken:data.Credentials.SessionToken});
-                        var support = new AWS.Support({region:config.Defaults.AWS.Support.Region});
+                        var support = new AWS.Support({accessKeyId:data.Credentials.AccessKeyId,secretAccessKey:data.Credentials.SecretAccessKey,sessionToken:data.Credentials.SessionToken,region:config.Defaults.AWS.Support.Region});
                         logger.info("Lib/Auth | Returning Support object for Master:Keys and Slave:Role");
                         callback(null,support);
                       }
@@ -93,8 +89,7 @@ Auth.getSupport = function(account,callback){
           });
         break;
         case 'keys':
-          AWS.config.update({accessKeyId:account.accessKey,secretAccessKey:account.accessSecret});
-          var support = new AWS.Support({region:config.Defaults.AWS.Support.Region});
+          var support = new AWS.Support({accessKeyId:account.accessKey,secretAccessKey:account.accessSecret,region:config.Defaults.AWS.Support.Region});
           logger.info("Lib/Auth | Returning Support object for Slave:Keys, master irrelevant");
           callback(null,support);
         break;
