@@ -364,6 +364,17 @@ module.exports = {
         }
       },
       {
+        "Name": "Amazon S3 Bucket Versioning",
+        "DefaultText": "%X of %Y buckets do not have versioning enabled, or versioning is suspended. ",
+        "SuppressionText": "%X items have been excluded",
+        "DefaultDisplayColumns":[
+          0,
+          1,
+          2,
+          3
+        ]
+      },
+      {
         "Name" : "High Utilization Amazon EC2 Instances",
         "DefaultText": "%X of %Y Amazon EC2 instances have high average daily utilization.",
         "SuppressionText" : "%X items have been excluded",
