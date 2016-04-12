@@ -4,7 +4,7 @@
   "description": "Multi account AWS trusted advisor dashboard",
   "main": "index.js",
   "scripts": {
-    "test": "gulp test",
+    "test": "NODE_CONFIG_DIR='./src/config' gulp test",
     "start": "export NODE_CONFIG_DIR='./src/config' ; node src/index.js",
     "postinstall": "mkdir -p src/public/scripts; node_modules/bower/bin/bower install; node_modules/browserify/bin/cmd.js src/react/app.js -t [ babelify --presets [ es2015 react ] ] | node_modules/uglifyjs/bin/uglifyjs > src/public/scripts/bundled.js"
   },
