@@ -18,6 +18,11 @@ npm start
 The server will now be available at `http://localhost:3000`
 
 
+to refresh the cache outside of the schedule
+===============
+run
+bin/refresh_cache.sh
+
 More Info
 ==========
 
