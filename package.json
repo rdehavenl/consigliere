@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "NODE_CONFIG_DIR='./src/config' gulp test",
-    "start": "export NODE_CONFIG_DIR='./src/config' ; node src/index.js",
+    "start": "export NODE_CONFIG_DIR='./src/config' ; node_modules/forever/bin/forever start -a -l /var/log/consigliere/forever.log -o /var/log/consigliere/forever.out.log -e /var/log/consigliere/forever.err.log src/index.js",
     "postinstall": "mkdir -p src/public/scripts; node_modules/bower/bin/bower install; node_modules/browserify/bin/cmd.js src/react/app.js -t [ babelify --presets [ es2015 react ] ] | node_modules/uglifyjs/bin/uglifyjs > src/public/scripts/bundled.js"
   },
   "repository": {
@@ -30,6 +30,7 @@
     "config": "^1.16.0",
     "cron": "^1.0.9",
     "dynamoose": "^0.4.1",
+    "forever": "^0.15.1",
     "gulp-bower": "0.0.10",
     "gulp-html-replace": "^1.5.5",
     "gulp-react": "^3.1.0",
