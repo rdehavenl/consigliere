@@ -307,4 +307,26 @@ StatFetcher.getStatusCountsForAll = function(callback){
   });
 }
 
+/*
+ * fetchStatsForAll: for all the accounts in the DB, fetch all their stats
+ * N.B. given fetchStatsFor() is not an async method with a callback, we cannot
+ * know when it returns, and therefore we are just blindly calling it for each account
+ * until we get to the end of the list; it is up to the person calling this function
+ * to determine when to stop its execution
+ * TODO: make fetchStatsFor() an async function
+ */
+StatFetcher.fetchStatsForAll = function(callback) {
+    mAccounts.scan({}, function(err, accounts) {
+        if (!err) {
+            accounts.forEach(function(account) {
+                StatFetcher.fetchStatsFor(account);
+            });
+            callback(null);
+        }
+        else {
+            callback(err);
+        }
+    });
+}
+ 
 module.exports = StatFetcher;
