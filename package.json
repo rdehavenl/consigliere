@@ -43,7 +43,6 @@
     "jquery": "^2.1.4",
     "js-yaml": "^3.4.3",
     "lodash": "^3.10.1",
-    "mongoose": "^4.2.6",
     "node-jsx": "^0.13.3",
     "path": "^0.12.7",
     "react": "^0.14.2",
@@ -71,6 +70,7 @@
     "mkdirp": "^0.5.1",
     "mocha": "^2.3.3",
     "npm": "^3.4.0",
+    "sinon": "^1.17.6",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.6.1"
   },
