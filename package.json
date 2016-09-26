@@ -70,6 +70,7 @@
     "mkdirp": "^0.5.1",
     "mocha": "^2.3.3",
     "npm": "^3.4.0",
+    "sinon": "^1.17.6",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.6.1"
   },
