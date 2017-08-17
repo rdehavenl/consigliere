@@ -11,6 +11,12 @@ var logger = new (winston.Logger)({
     ]
 });
 
+var proxy = require('proxy-agent');
+
+    AWS.config.update({
+	          httpOptions: { agent: proxy(config.Defaults.AWS.Proxy) }
+			           });
+
 var Auth = {};
 
 /*

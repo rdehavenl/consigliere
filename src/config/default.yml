@@ -3,6 +3,7 @@ Scheduler:
 
 Defaults:
   AWS:
+    Proxy: http://proxy-ip:8888
     Support:
       Region: us-east-1
       Language: en

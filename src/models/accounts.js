@@ -3,8 +3,13 @@
 var dynamoose = require('dynamoose');
 var config = require('config');
 var Schema = dynamoose.Schema;
+var proxy = require('proxy-agent');
 
-dynamoose.AWS.config.update({ region: config.Defaults.AWS.Dynamo.Region });
+dynamoose.AWS.config.update({
+	  region: config.Defaults.AWS.Dynamo.Region,
+	    httpOptions: { agent: proxy(config.Defaults.AWS.Proxy) }
+});
+
 
 var accountSchema = new Schema({
   accountName: {
