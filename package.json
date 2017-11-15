@@ -10,7 +10,7 @@
     "test": "NODE_CONFIG_DIR='./src/config' gulp test",
     "start": "export NODE_CONFIG_DIR='./src/config' ; node_modules/forever/bin/forever start -a -l /var/log/consigliere/forever.log -o /var/log/consigliere/forever.out.log -e /var/log/consigliere/forever.err.log src/index.js",
     "refresh_cache": "NODE_CONFIG_DIR='./src/config' node src/tools/refresh_cache.js",
-    "postinstall": "mkdir -p src/public/scripts; node_modules/bower/bin/bower install; node_modules/browserify/bin/cmd.js src/react/app.js -t [ babelify --presets [ es2015 react ] ] | node_modules/uglifyjs/bin/uglifyjs > src/public/scripts/bundled.js"
+    "postinstall": "mkdir -p src/public/scripts; node_modules/bower/bin/bower install; node_modules/browserify/bin/cmd.js src/react/app.js -t [ babelify --presets [ es2015 react ] ] | node_modules/uglify-js/bin/uglifyjs > src/public/scripts/bundled.js"
   },
   "repository": {
     "type": "git",
@@ -56,7 +56,7 @@
     "redis": "^2.4.2",
     "spin": "0.0.1",
     "sqlite3": "^3.1.1",
-    "uglifyjs": "^2.4.10",
+    "uglify-js": "^2.4.11",
     "vision": "^4.0.1",
     "winston": "^2.1.1"
   },
